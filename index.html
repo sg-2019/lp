@@ -1,0 +1,2544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leah Session — The Daveys</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a5c38;
+  --green-light: #e8f5ee;
+  --green-mid: #2d7a4f;
+  --green-dark: #0f3d24;
+  --amber: #b45309;
+  --amber-light: #fef3c7;
+  --red: #991b1b;
+  --red-light: #fee2e2;
+  --blue: #1a56b0;
+  --blue-light: #eff6ff;
+  --purple: #6d28d9;
+  --purple-light: #f5f3ff;
+  --teal: #0f766e;
+  --teal-light: #f0fdfa;
+  --blue-light: #eff6ff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f0f4f1;
+  color: var(--gray-900);
+  min-height: 100vh;
+  padding-bottom: 120px;
+}
+
+/* ── HEADER ── */
+.app-header {
+  background: var(--green);
+  color: white;
+  padding: 20px 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.header-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.header-date {
+  font-size: 12px;
+  opacity: 0.65;
+  font-weight: 300;
+  margin-top: 1px;
+}
+.header-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 2px;
+}
+.tab {
+  flex: 1;
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  transition: all 0.15s;
+  color: rgba(255,255,255,0.65);
+  border-bottom: 2px solid transparent;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.tab.active {
+  color: white;
+  border-bottom-color: white;
+  background: rgba(255,255,255,0.1);
+}
+.tab-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  display: none;
+  flex-shrink: 0;
+}
+.tab-dot.visible { display: block; }
+
+/* ── TAB PANELS ── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── SECTIONS ── */
+.wrap { padding: 10px 10px 0; max-width: 540px; margin: 0 auto; }
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+.card-header:active { background: var(--gray-50); }
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.card-emoji { font-size: 16px; flex-shrink: 0; }
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+.card-subtitle {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 1px;
+}
+.card-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--green-light);
+  color: var(--green);
+  border-radius: 20px;
+  padding: 2px 8px;
+  display: none;
+}
+.card-badge.visible { display: inline-block; }
+.card-chevron {
+  color: var(--gray-400);
+  font-size: 12px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+.card-chevron.open { transform: rotate(180deg); }
+.card-divider { height: 1px; background: var(--gray-100); margin: 0 16px; }
+.card-body { display: none; padding: 14px 16px; }
+.card-body.open { display: block; }
+
+/* ── FORM ELEMENTS ── */
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+.input, .textarea, .select-input {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+  color: var(--gray-900);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.input:focus, .textarea:focus, .select-input:focus {
+  border-color: var(--green);
+  background: white;
+}
+.input::placeholder, .textarea::placeholder { color: var(--gray-400); }
+.textarea { resize: none; min-height: 72px; line-height: 1.5; }
+.select-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239ca3af' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 30px; }
+
+/* ── TOGGLE BUTTONS ── */
+.toggle-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.toggle-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.toggle-btn.active {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green);
+}
+.toggle-btn.active-blue {
+  border-color: var(--blue);
+  background: var(--blue-light);
+  color: var(--blue);
+}
+.toggle-btn.active-red {
+  border-color: var(--red);
+  background: var(--red-light);
+  color: var(--red);
+}
+
+/* ── TASK CHECKBOXES ── */
+.task-list { display: flex; flex-direction: column; gap: 1px; }
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background 0.08s;
+}
+.task-row:last-child { border-bottom: none; }
+.task-row.checked { background: var(--green-light); border-radius: var(--radius-xs); padding: 8px 6px; }
+.task-checkbox {
+  width: 20px; height: 20px;
+  border: 2px solid var(--gray-300);
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s;
+  margin-top: 1px;
+}
+.task-checkbox.checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+.task-checkbox.checked::after {
+  content: '';
+  display: block;
+  width: 10px; height: 6px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) translateY(-1px);
+}
+.task-info { flex: 1; min-width: 0; }
+.task-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-800);
+  line-height: 1.4;
+}
+.task-note {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.task-default-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 2px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.badge-everyday { background: #e8f5ee; color: var(--green); }
+.badge-tuesday  { background: #eff6ff; color: var(--blue); }
+.badge-thursday { background: #f5f3ff; color: var(--purple); }
+
+/* ── SUBSECTION HEADERS ── */
+.subsection-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gray-400);
+  margin: 12px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.subsection-label:first-child { margin-top: 0; }
+.subsection-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-100);
+}
+
+/* ── CUSTOM ITEM ROWS ── */
+.custom-section {
+  border-top: 1px dashed var(--gray-200);
+  padding: 10px 0 0;
+  margin-top: 8px;
+}
+.custom-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+.custom-row {
+  display: grid;
+  grid-template-columns: 1fr 70px;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+.custom-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 70px 1fr;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--green);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.add-btn:hover { opacity: 0.7; }
+
+/* ── NUMBER STEPPER ── */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: white;
+  height: 36px;
+}
+.step-btn {
+  width: 32px;
+  height: 100%;
+  border: none;
+  background: var(--gray-50);
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: background 0.1s;
+  font-family: 'DM Sans', sans-serif;
+  flex-shrink: 0;
+}
+.step-btn:active { background: var(--gray-200); }
+.step-val {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-800);
+  min-width: 40px;
+  border-left: 1px solid var(--gray-200);
+  border-right: 1px solid var(--gray-200);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── DC GRID ── */
+.dc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.dc-item { text-align: center; }
+.dc-item-label {
+  font-size: 10px;
+  color: var(--gray-500);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+/* ── GROCERY SECTION (from existing app) ── */
+.item-row {
+  display: grid;
+  grid-template-columns: 20px 1fr auto auto;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.item-row:last-child { border-bottom: none; }
+.item-row.checked { background: var(--green-light); border-radius: var(--radius-xs); padding: 9px 6px; }
+.checkbox {
+  width: 20px; height: 20px;
+  border: 2px solid var(--gray-300);
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+.checkbox.checked { background: var(--green); border-color: var(--green); }
+.checkbox.checked::after {
+  content: '';
+  display: block;
+  width: 10px; height: 6px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) translateY(-1px);
+}
+.item-info { min-width: 0; }
+.item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-notes-small { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+.item-last { font-size: 10px; font-weight: 500; white-space: nowrap; flex-shrink: 0; color: var(--gray-400); }
+.item-last.recent { color: #166534; }
+.item-last.stale { color: var(--red); }
+.qty-controls {
+  display: flex; align-items: center;
+  opacity: 0.35; pointer-events: none;
+  transition: opacity 0.12s;
+  flex-shrink: 0;
+}
+.qty-controls.active { opacity: 1; pointer-events: all; }
+.qty-btn {
+  width: 24px; height: 24px;
+  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-600);
+  font-family: 'DM Sans', sans-serif;
+}
+.qty-btn:first-child { border-radius: 5px 0 0 5px; }
+.qty-btn:last-child { border-radius: 0 5px 5px 0; }
+.qty-val {
+  min-width: 30px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+  height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  background: white;
+  color: var(--gray-800);
+}
+
+/* ── SKIP BAR ── */
+.skip-bar {
+  background: white;
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.skip-btn {
+  width: 100%;
+  padding: 13px 16px;
+  background: white;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-500);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  gap: 7px;
+}
+.skip-btn:hover { background: var(--gray-50); }
+
+/* ── NOTES BAR ── */
+.notes-bar {
+  background: white;
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.notes-bar-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-400);
+  margin-bottom: 7px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: white;
+  border-top: 1px solid var(--gray-200);
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+.footer-inner { max-width: 540px; margin: 0 auto; }
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
+.submit-btn.session-btn { background: var(--blue); }
+.submit-btn.session-btn:disabled { background: var(--gray-400); }
+
+/* ── BOTH SUBMITTED BANNER ── */
+.ready-banner {
+  display: none;
+  background: #022c22;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  animation: slideDown 0.3s ease;
+}
+.ready-banner.visible { display: block; }
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.ready-banner span { opacity: 0.7; font-size: 11px; margin-left: 6px; }
+
+/* ── SUCCESS SCREEN ── */
+.success-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 28px;
+  text-align: center;
+  gap: 14px;
+}
+.success-screen.visible { display: flex; }
+.success-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+.success-icon.green { background: var(--green-light); }
+.success-icon.blue { background: var(--blue-light); }
+.success-screen h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+.success-screen p { font-size: 14px; color: var(--gray-500); line-height: 1.6; max-width: 280px; }
+.success-summary {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 14px;
+  width: 100%;
+  text-align: left;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.success-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+.success-row:last-child { border-bottom: none; }
+.success-sec {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-400);
+  padding: 6px 0 2px;
+}
+
+/* ── DAY TOGGLE ── */
+.day-toggle-wrap {
+  padding: 10px 10px 0;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.day-toggle {
+  background: white;
+  border-radius: var(--radius);
+  padding: 10px;
+  display: flex;
+  gap: 6px;
+  box-shadow: var(--shadow);
+  margin-bottom: 8px;
+}
+.day-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--gray-50);
+  color: var(--gray-500);
+}
+.day-btn.active {
+  background: var(--blue);
+  color: white;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap { background: rgba(255,255,255,0.2); border-radius: 4px; height: 3px; overflow: hidden; }
+.progress-bar-fill { background: white; height: 100%; border-radius: 4px; transition: width 0.3s; width: 0%; }
+
+/* Responsive */
+@media (min-width: 560px) {
+  .wrap, .day-toggle-wrap { padding-left: 0; padding-right: 0; }
+  .footer { padding: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Leah Session</div>
+      <div class="header-date" id="header-date"></div>
+    </div>
+  </div>
+</div>
+
+<div id="session-main">
+  <!-- Day toggle -->
+  <div class="day-toggle-wrap">
+    <div class="day-toggle">
+      <button class="day-btn" id="day-tuesday" onclick="setDay('Tuesday')">Tuesday</button>
+      <button class="day-btn" id="day-thursday" onclick="setDay('Thursday')">Thursday</button>
+    </div>
+  </div>
+
+
+  <div class="wrap">
+
+    <!-- 1. Opening -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('opening')">
+        <div class="card-header-left">
+          <span class="card-emoji">📅</span>
+          <div>
+            <div class="card-title">Opening</div>
+            <div class="card-subtitle">Greeting + context</div>
+          </div>
+        </div>
+        <span class="card-chevron open" id="chev-opening">▾</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body open" id="body-opening">
+        <div class="field">
+          <label class="label">Day greeting</label>
+          <div style="display:flex;gap:6px;align-items:flex-start;">
+            <input class="input" id="s-greeting" placeholder="e.g. Happy Tuesday! Hope you had a great weekend!" style="flex:1;" />
+            <button onclick="autoGreeting()" style="flex-shrink:0;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);background:var(--gray-50);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--gray-600);cursor:pointer;white-space:nowrap;transition:background 0.1s;" onmouseover="this.style.background='var(--gray-100)'" onmouseout="this.style.background='var(--gray-50)'">✨ Suggest</button>
+          </div>
+          <div id="greeting-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;"></div>
+        </div>
+        <div class="field">
+          <label class="label">Opening context</label>
+          <div id="context-chips" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;"></div>
+          <textarea class="textarea" id="s-context" placeholder="e.g. We are out of town returning Tuesday. Glad you are feeling better!" style="min-height:60px;"></textarea>
+          <button onclick="toggleContextChips()" id="context-chips-btn" style="margin-top:6px;padding:5px 10px;border-radius:20px;border:1px solid var(--gray-200);background:var(--gray-50);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--gray-500);cursor:pointer;">＋ Show common phrases</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Who is home + Griffin -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('griffin')">
+        <div class="card-header-left">
+          <span class="card-emoji">🏠</span>
+          <div>
+            <div class="card-title">Who is home + Griffin</div>
+            <div class="card-subtitle">WFH status, pickup, bedtime</div>
+          </div>
+        </div>
+        <span class="card-chevron open" id="chev-griffin">▾</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body open" id="body-griffin">
+        <input type="hidden" id="s-who-home" value="" />
+        <div class="field">
+          <label class="label">Who is home</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div>
+              <div class="label" style="margin-bottom:5px;">Sara</div>
+              <select class="select-input" id="s-sara-status" onchange="updateGriffinPreview()">
+                <option value="">Select...</option>
+                <option>WFH</option>
+                <option>In office</option>
+                <option>Out of town</option>
+              </select>
+            </div>
+            <div>
+              <div class="label" style="margin-bottom:5px;">Greg</div>
+              <select class="select-input" id="s-greg-status" onchange="updateGriffinPreview()">
+                <option value="">Select...</option>
+                <option>WFH</option>
+                <option>In office</option>
+                <option>Out of town</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Griffin pickup</label>
+          <div class="toggle-group">
+            <button class="toggle-btn" id="pickup-yes" onclick="setPickup('Yes')">Yes</button>
+            <button class="toggle-btn" id="pickup-no" onclick="setPickup('No')">No</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Bedtime help</label>
+          <div class="toggle-group">
+            <button class="toggle-btn" id="bed-full" onclick="setBedtime('full')">Full bedtime</button>
+            <button class="toggle-btn" id="bed-bath" onclick="setBedtime('bath')">Bath only</button>
+            <button class="toggle-btn" id="bed-no" onclick="setBedtime('none')">No</button>
+          </div>
+        </div>
+        <div class="field" id="pickup-notes-field" style="display:none;">
+          <label class="label">Pickup notes</label>
+          <input class="input" id="s-pickup-notes" placeholder="Pickup time, car availability, any notes..." oninput="updateGriffinPreview()" />
+        </div>
+        <div class="field">
+          <label class="label">Extended evening hours <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray-400);">(optional)</span></label>
+          <input class="input" id="s-ext-hours" placeholder="e.g. 4pm–10pm tomorrow with Griffin" oninput="updateGriffinPreview()" />
+        </div>
+        <div id="griffin-preview" style="display:none;margin-top:12px;padding:12px 14px;background:var(--gray-50);border-radius:var(--radius-sm);border:1px solid var(--gray-200);">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:6px;">Email preview</div>
+          <div id="griffin-preview-text" style="font-size:13px;color:var(--gray-700);line-height:1.6;white-space:pre-wrap;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Special Notes + Departure -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('notes')">
+        <div class="card-header-left">
+          <span class="card-emoji">📌</span>
+          <div>
+            <div class="card-title">Special notes</div>
+            <div class="card-subtitle">Notes, reminders, departure checklist</div>
+          </div>
+        </div>
+        <span class="card-chevron open" id="chev-notes">▾</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body open" id="body-notes">
+        <div class="field">
+          <label class="label">Special notes <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray-400);">(one per line)</span></label>
+          <textarea class="textarea" id="s-special-notes" placeholder="e.g. Package arriving — please bring in&#10;Contractor coming at 2pm — please leave key on counter"></textarea>
+        </div>
+        <div class="field">
+          <label class="label">Overall / session notes</label>
+          <textarea class="textarea" id="s-overall-notes" placeholder="Any additional context or notes for this session..."></textarea>
+        </div>
+        <div class="field">
+          <div class="task-row" style="padding:8px 0;">
+            <div class="task-checkbox" id="chk-departure" onclick="toggleDeparture()"></div>
+            <div class="task-info">
+              <div class="task-name">Include departure checklist</div>
+              <div class="task-note">Lights / faucets / locks / text us — use during travel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Laundry -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('laundry')">
+        <div class="card-header-left">
+          <span class="card-emoji">👕</span>
+          <div>
+            <div class="card-title">Laundry</div>
+            <div class="card-subtitle" id="laundry-subtitle">Select items</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="card-badge" id="badge-laundry"></span>
+          <span class="card-chevron" id="chev-laundry">▾</span>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-laundry">
+        <!-- Load rows -->
+        <div id="laundry-rows"></div>
+        <button class="add-btn" onclick="addLaundryRow()" style="margin-top:4px;">＋ Add another load</button>
+
+        <!-- Quick-add checkboxes -->
+        <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--gray-200);">
+          <div class="custom-label" style="margin-bottom:8px;">Also add to list</div>
+          <div id="laundry-quickadd" style="display:flex;flex-direction:column;gap:2px;"></div>
+        </div>
+
+        <!-- Notes -->
+        <div class="custom-section" style="margin-top:10px;">
+          <div class="custom-label">Laundry notes</div>
+          <textarea class="textarea" id="s-laundry-notes" placeholder="Any extra context for the session..." style="min-height:48px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Grocery lists -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('sgrocery')">
+        <div class="card-header-left">
+          <span class="card-emoji">🛒</span>
+          <div>
+            <div class="card-title">Grocery lists</div>
+            <div class="card-subtitle" id="sgrocery-subtitle">By store</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="card-badge" id="badge-sgrocery"></span>
+          <span class="card-chevron" id="chev-sgrocery">▾</span>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-sgrocery">
+        <div id="grocery-store-list"></div>
+        <button class="add-btn" onclick="addGroceryStore()" style="margin-top:6px;">＋ Add store</button>
+      </div>
+    </div>
+
+    <!-- 6. Dry Cleaning -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('dc')">
+        <div class="card-header-left">
+          <span class="card-emoji">👔</span>
+          <div>
+            <div class="card-title">Dry cleaning</div>
+            <div class="card-subtitle" id="dc-subtitle">None</div>
+          </div>
+        </div>
+        <span class="card-chevron" id="chev-dc">▾</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-dc">
+        <div class="field">
+          <label class="label">Action</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="dc-none" onclick="setDC('none')">None</button>
+            <button class="toggle-btn" id="dc-drop" onclick="setDC('drop')">Drop off</button>
+            <button class="toggle-btn" id="dc-pick" onclick="setDC('pick')">Pick up</button>
+          </div>
+        </div>
+        <div id="dc-items-wrap" style="display:none;">
+          <div class="subsection-label">Items</div>
+          <div class="dc-grid">
+            <div class="dc-item"><div class="dc-item-label">Pants</div><div class="stepper"><button class="step-btn" onclick="stepDC('pants',-1)">−</button><div class="step-val" id="dcv-pants">0</div><button class="step-btn" onclick="stepDC('pants',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('dressshirts',-1)">−</button><div class="step-val" id="dcv-dressshirts">0</div><button class="step-btn" onclick="stepDC('dressshirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('shirts',-1)">−</button><div class="step-val" id="dcv-shirts">0</div><button class="step-btn" onclick="stepDC('shirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Suit</div><div class="stepper"><button class="step-btn" onclick="stepDC('suit',-1)">−</button><div class="step-val" id="dcv-suit">0</div><button class="step-btn" onclick="stepDC('suit',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sports coat</div><div class="stepper"><button class="step-btn" onclick="stepDC('sportscoat',-1)">−</button><div class="step-val" id="dcv-sportscoat">0</div><button class="step-btn" onclick="stepDC('sportscoat',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater</div><div class="stepper"><button class="step-btn" onclick="stepDC('sweater',-1)">−</button><div class="step-val" id="dcv-sweater">0</div><button class="step-btn" onclick="stepDC('sweater',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('dress',-1)">−</button><div class="step-val" id="dcv-dress">0</div><button class="step-btn" onclick="stepDC('dress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('sweaterdress',-1)">−</button><div class="step-val" id="dcv-sweaterdress">0</div><button class="step-btn" onclick="stepDC('sweaterdress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Jeans</div><div class="stepper"><button class="step-btn" onclick="stepDC('jeans',-1)">−</button><div class="step-val" id="dcv-jeans">0</div><button class="step-btn" onclick="stepDC('jeans',1)">+</button></div></div>
+          </div>
+          <div class="field" style="margin-top:12px;">
+            <label class="label">Other items</label>
+            <input class="input" id="dc-other" placeholder="Anything not listed above..." />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Tasks -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('tasks')">
+        <div class="card-header-left">
+          <span class="card-emoji">✅</span>
+          <div>
+            <div class="card-title">Tasks</div>
+            <div class="card-subtitle" id="tasks-subtitle">By category</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="card-badge" id="badge-tasks"></span>
+          <span class="card-chevron" id="chev-tasks">▾</span>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-tasks">
+        <div id="tasks-content"></div>
+        <div class="subsection-label" style="margin-top:12px;">Errands</div>
+        <div class="task-list">
+
+          <!-- Car wash -->
+          <div class="task-row" id="row-carwash">
+            <div class="task-checkbox" id="chk-carwash" onclick="toggleExtra('carwash')"></div>
+            <div class="task-info">
+              <div class="task-name">Car wash</div>
+              <div class="task-note">Quiroga's (~$30) or Car Care Specialists (#3 wash ~$35-40)</div>
+            </div>
+          </div>
+          <div id="carwash-detail" style="display:none;padding:4px 0 8px 30px;">
+            <select class="select-input" id="s-carwash-loc" style="font-size:13px;">
+              <option value="">Select location...</option>
+              <option>Quiroga's — Complete Wash (~$30)</option>
+              <option>Car Care Specialists — #3 Wash (~$35-40)</option>
+            </select>
+          </div>
+
+          <!-- Return package -->
+          <div class="task-row" id="row-returnpkg">
+            <div class="task-checkbox" id="chk-returnpkg" onclick="toggleExtra('returnpkg')"></div>
+            <div class="task-info"><div class="task-name">Return package</div></div>
+          </div>
+          <div id="returnpkg-detail" style="display:none;padding:4px 0 8px 30px;">
+            <input class="input" id="s-return-details" placeholder="Return location, QR code note, slip location..." style="font-size:13px;" />
+          </div>
+
+          <!-- Packages expected — now a checkbox with two sub-fields -->
+          <div class="task-row" id="row-packages">
+            <div class="task-checkbox" id="chk-packages" onclick="toggleExtra('packages')"></div>
+            <div class="task-info"><div class="task-name">Packages expected</div></div>
+          </div>
+          <div id="packages-detail" style="display:none;padding:4px 0 8px 30px;">
+            <div id="package-entries"></div>
+            <button class="add-btn" onclick="addPackageEntry()" style="margin-top:2px;">＋ Add package</button>
+          </div>
+
+          <!-- Custom errand -->
+          <div class="task-row" id="row-custom-errand">
+            <div class="task-checkbox" id="chk-custom-errand" onclick="toggleExtra('custom-errand')"></div>
+            <div class="task-info"><div class="task-name">Other errand</div></div>
+          </div>
+          <div id="custom-errand-detail" style="display:none;padding:4px 0 8px 30px;">
+            <div id="custom-errand-entries"></div>
+            <button class="add-btn" onclick="addErrandEntry()" style="margin-top:2px;">＋ Add errand</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 8. If Time -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('iftime')">
+        <div class="card-header-left">
+          <span class="card-emoji">⏱</span>
+          <div>
+            <div class="card-title">If time allows</div>
+            <div class="card-subtitle">Lower priority extras</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="card-badge" id="badge-iftime"></span>
+          <span class="card-chevron" id="chev-iftime">▾</span>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-iftime">
+        <div class="task-list" id="iftime-tasks"></div>
+      </div>
+    </div>
+
+    <!-- 9. Long term projects -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard('longterm')">
+        <div class="card-header-left">
+          <span class="card-emoji">📋</span>
+          <div>
+            <div class="card-title">Long term projects</div>
+            <div class="card-subtitle">Ongoing items to include</div>
+          </div>
+        </div>
+        <span class="card-chevron" id="chev-longterm">▾</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="card-body" id="body-longterm">
+        <div class="field">
+          <textarea class="textarea" id="s-longterm" placeholder="Active projects to include at bottom of email — one per line..." style="min-height:80px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="success-screen" id="session-success">
+  <div class="success-icon blue">✓</div>
+  <h2>Session submitted!</h2>
+  <p>Zapier is building Leah's email draft. You'll get a text when it's ready to review in Gmail.</p>
+</div>
+
+<div class="footer">
+  <div class="footer-inner">
+    <button class="submit-btn blue" id="session-submit-btn" onclick="submitSession()">Submit session</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const SESSION_WEBHOOK = params.get('hook') || '';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let currentDay = 'Tuesday';
+let sessionTasks = {};
+let dcStatus = 'none';
+let dcCounts = { pants:0, dressshirts:0, shirts:0, suit:0, sportscoat:0, sweater:0, dress:0, sweaterdress:0, jeans:0 };
+let pickupVal = '';
+let bedtimeVal = '';
+let departureChecked = false;
+let extraTasks = {};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+function today() {
+  return new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+}
+function daysSince(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  if (isNaN(d)) return null;
+  return Math.floor((Date.now() - d.getTime()) / 86400000);
+}
+function lastBoughtLabel(dateStr) {
+  const d = daysSince(dateStr);
+  if (d === null) return { text:'', cls:'' };
+  if (d === 0) return { text:'Today', cls:'recent' };
+  if (d === 1) return { text:'Yesterday', cls:'recent' };
+  if (d <= 7) return { text:`${d}d ago`, cls:'recent' };
+  if (d <= 14) return { text:`${d}d ago`, cls:'' };
+  return { text:`${d}d ago`, cls:'stale' };
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function toggleCard(id) {
+  const body = document.getElementById('body-'+id);
+  const chev = document.getElementById('chev-'+id);
+  if (!body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  if (chev) chev.classList.toggle('open', !open);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SMART DAY DETECTION
+// ─────────────────────────────────────────────────────────────────────────────
+function detectDay() {
+  const dow = new Date().getDay(); // 0=Sun, 1=Mon...
+  // Wed(3), Thu(4) → Thursday; everything else → Tuesday
+  return (dow === 3 || dow === 4) ? 'Thursday' : 'Tuesday';
+}
+
+function setDay(day) {
+  currentDay = day;
+  document.getElementById('day-tuesday').classList.toggle('active', day === 'Tuesday');
+  document.getElementById('day-thursday').classList.toggle('active', day === 'Thursday');
+  buildTasksSection();
+  buildLaundrySection();
+  buildIfTimeSection();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SECTION TOGGLES
+// ─────────────────────────────────────────────────────────────────────────────
+function setPickup(val) {
+  pickupVal = val;
+  document.getElementById('pickup-yes').className = 'toggle-btn' + (val==='Yes' ? ' active' : '');
+  document.getElementById('pickup-no').className = 'toggle-btn' + (val==='No' ? ' active-red' : '');
+  document.getElementById('pickup-notes-field').style.display = val==='Yes' ? '' : 'none';
+  updateGriffinPreview();
+}
+function setBedtime(val) {
+  bedtimeVal = val;
+  document.getElementById('bed-full').className = 'toggle-btn' + (val==='full' ? ' active' : '');
+  document.getElementById('bed-bath').className = 'toggle-btn' + (val==='bath' ? ' active-blue' : '');
+  document.getElementById('bed-no').className = 'toggle-btn' + (val==='none' ? ' active-red' : '');
+  updateGriffinPreview();
+}
+function toggleDeparture() {
+  departureChecked = !departureChecked;
+  const el = document.getElementById('chk-departure');
+  el.classList.toggle('checked', departureChecked);
+  el.closest('.task-row').classList.toggle('checked', departureChecked);
+}
+function setDC(val) {
+  dcStatus = val;
+  document.getElementById('dc-none').className = 'toggle-btn' + (val==='none' ? ' active' : '');
+  document.getElementById('dc-drop').className = 'toggle-btn' + (val==='drop' ? ' active' : '');
+  document.getElementById('dc-pick').className = 'toggle-btn' + (val==='pick' ? ' active' : '');
+  document.getElementById('dc-items-wrap').style.display = val==='none' ? 'none' : '';
+  document.getElementById('dc-subtitle').textContent = val==='none' ? 'None' : val==='drop' ? 'Drop off' : 'Pick up';
+}
+function stepDC(key, delta) {
+  dcCounts[key] = Math.max(0, (dcCounts[key]||0) + delta);
+  document.getElementById('dcv-'+key).textContent = dcCounts[key];
+}
+function toggleExtra(key) {
+  extraTasks[key] = !extraTasks[key];
+  const chk = document.getElementById('chk-'+key);
+  const row = document.getElementById('row-'+key);
+  chk.classList.toggle('checked', extraTasks[key]);
+  if (row) row.classList.toggle('checked', extraTasks[key]);
+  const detail = document.getElementById(key+'-detail');
+  if (detail) detail.style.display = extraTasks[key] ? '' : 'none';
+  // When packages first opened, render the entry fields
+  if (key === 'packages' && extraTasks[key]) renderPackageEntries();
+  if (key === 'custom-errand' && extraTasks[key]) renderErrandEntries();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TASK DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
+const EVERYDAY_TASKS = [
+  { id:'unload-dw',    name:"Unload dishwashers (incl. Griffin's items)", note:"Put away/together Griffin's items on counter", cat:'Kitchen' },
+  { id:'load-dw',      name:'Load / run dishwashers', note:'', cat:'Kitchen' },
+  { id:'highchair',    name:'Wipe down/clean high chair & tray', note:'', cat:'Griffin' },
+  { id:'griffin-dw',   name:"Load Griffin's dishwasher", note:'', cat:'Griffin' },
+  { id:'trash',        name:'Take out trash/recycling', note:'', cat:'Trash' },
+  { id:'bathroom-trash', name:'Bathroom trash cans', note:'', cat:'Trash' },
+  { id:'general-pickup', name:'General pickup/tidying', note:'', cat:'General' },
+];
+
+const TUESDAY_TASKS = [
+  { id:'laundry-griffin', name:"Laundry — Griffin's clothes", note:'', cat:'Laundry' },
+  { id:'laundry-ours',    name:'Laundry — our clothes', note:'', cat:'Laundry' },
+  { id:'laundry-hangdry', name:'Laundry — hang dry load', note:'Note specific items to pull for hang dry in laundry notes', cat:'Laundry' },
+  { id:'laundry-fold',    name:'Laundry — fold items in dryer', note:'', cat:'Laundry' },
+  { id:'laundry-move',    name:'Laundry — move washer to dryer', note:'', cat:'Laundry' },
+  { id:'wipe-counters',   name:'Wipe down kitchen counters & island', note:'', cat:'Kitchen' },
+  { id:'wipe-stovetop',   name:'Wipe down stovetop', note:'', cat:'Kitchen' },
+  { id:'vacuum-up',       name:'Vacuum upstairs', note:'', cat:'Floors' },
+  { id:'diaper-pails',    name:'Diaper pails (+ Febreze)', note:'Febreze pails when changing out liners', cat:'Trash' },
+  { id:'playroom',        name:'Pick up playroom', note:'Usually lower priority unless noted otherwise', cat:'General' },
+];
+
+const THURSDAY_TASKS = [
+  { id:'laundry-towels',  name:'Laundry — towels/linens', note:'', cat:'Laundry' },
+  { id:'toilets',         name:'Clean toilets', note:'', cat:'Bathroom' },
+  { id:'bath-counters',   name:'Wipe down bathroom counters', note:'', cat:'Bathroom' },
+  { id:'vacuum-down',     name:'Vacuum downstairs', note:'', cat:'Floors' },
+  { id:'vacuum-bath',     name:'Vacuum bathrooms', note:'', cat:'Floors' },
+  { id:'wipe-sinks',      name:'Wipe down inside sinks', note:'Mrs. Meyer and dish scrub works well', cat:'Kitchen' },
+];
+
+const EXTRA_TASKS_BY_CAT = {
+  'Kitchen': [
+    { id:'wipe-counters',   name:'Wipe down kitchen counters & island', note:'' },
+    { id:'wipe-stovetop',   name:'Wipe down stovetop', note:'' },
+    { id:'wipe-sinks',      name:'Wipe down inside sinks', note:'Mrs. Meyer and dish scrub works well' },
+    { id:'wipe-table',      name:'Wipe down dining room table', note:'Water + paper towel ok' },
+    { id:'clean-fridge-surf', name:'Clean/wipe fridge surfaces & drawers', note:'' },
+    { id:'clean-fridge',    name:'Clean out fridge', note:'Throw away fresh food/leftovers/expired items' },
+    { id:'clean-pantry',    name:'Clean out pantry/cabinets', note:'Throw away expired items; keep list of discards' },
+    { id:'coffee-grinds',   name:'Clean out coffee grinds', note:'Rinse out coffee pot; throw away grinds' },
+    { id:'descale-coffee',  name:'Descale coffee machine', note:'Solution in cabinet on shelf with coffee cups. Video link in standing instructions' },
+    { id:'dw-cleaner',      name:'Run dishwasher cleaner (both dishwashers)', note:'' },
+  ],
+  'Bathroom': [
+    { id:'toilets',         name:'Clean toilets', note:'' },
+    { id:'bath-counters',   name:'Wipe down bathroom counters', note:'' },
+    { id:'wipe-tubs',       name:'Wipe down inside of tubs', note:'' },
+    { id:'shower-tile',     name:'Clean shower tiling & around base', note:'' },
+    { id:'sara-brushes',    name:"Clean Sara's makeup brushes", note:'' },
+  ],
+  'Floors': [
+    { id:'vacuum-up',       name:'Vacuum upstairs', note:'' },
+    { id:'vacuum-down',     name:'Vacuum downstairs', note:'' },
+    { id:'vacuum-bath',     name:'Vacuum bathrooms', note:'' },
+    { id:'mop-up',          name:'Mop upstairs (kitchen/dining area)', note:'Do NOT use steam mop' },
+    { id:'mop-down',        name:'Mop downstairs', note:'' },
+    { id:'floor-doors',     name:'Clean floor by front/back doors', note:'' },
+  ],
+  'Griffin': [
+    { id:'diaper-inventory', name:'Diaper/pull-up inventory check', note:'Count diapers, pull-ups, swim diapers, and full-size wipe packages' },
+    { id:'restock-table',   name:'Restock/reorganize changing table', note:'' },
+    { id:'clean-humidifier', name:"Clean Griffin's humidifier", note:'Instructions: help.getcanopy.co' },
+    { id:'humidifier-filter', name:"Change Griffin's humidifier filter", note:"Do not re-fill water tank if going out of town; unplug when done" },
+  ],
+  'Home': [
+    { id:'deep-cleaners',   name:'Schedule deep cleaners', note:'' },
+    { id:'make-guest',      name:'Make up guest room', note:'Mattress pad → fitted sheet → regular sheet → comforter → pillows (2 each side)' },
+    { id:'convert-guest',   name:'Convert guest room to office', note:'Comforter/linens/pillowcases/pillows in vacuum seal. Mattress pad — ok to skip' },
+    { id:'unpack-luggage',  name:'Unpack luggage', note:'Note whose luggage and where items go in notes' },
+    { id:'furnace-filter',  name:'Change furnace filter', note:'3M filters; extras in downstairs closet under stairs. Note arrow direction.' },
+    { id:'wash-machine',    name:'Clean washing machine (gasket/general)', note:'Clean rubber gasket/seal first, then general clean' },
+    { id:'vacuum-bag',      name:'Check/replace vacuum bag', note:'' },
+  ],
+  'Cooking': [
+    { id:'dinner-prep',     name:'Dinner prep for adults', note:'Add recipe/instructions in notes below' },
+    { id:'griffin-food',    name:'Griffin food prep / cooking', note:'Add recipe or instructions in notes below' },
+    { id:'french-toast',    name:'Make French toast (freeze)', note:'French bread + 4 eggs + splash milk + vanilla + dash cinnamon. Cool then fridge.' },
+    { id:'sweet-potato-pancakes', name:'Make sweet potato pancakes', note:'Recipe: yummytoddlerfood.com/whole-grain-sweet-potato-pancakes/' },
+    { id:'banana-oatmeal',  name:'Make banana-oatmeal pancakes', note:'Recipe: yummytoddlerfood.com/banana-oatmeal-pancakes/' },
+    { id:'yogurt-pops',     name:'Make yogurt ice cream pops', note:'Blend: 6oz yogurt, 1 banana, 1 cup frozen berries, 2 tbsp nut butter, 1 tbsp maple syrup' },
+  ],
+  'General': [
+    { id:'dusting',         name:'General dusting (walls/ceilings)', note:'' },
+    { id:'playroom',        name:'Pick up playroom', note:'' },
+  ],
+};
+
+const IF_TIME_TASKS = [
+  { id:'it-mop-up',     name:'Mop upstairs', cat:'Floors' },
+  { id:'it-mop-down',   name:'Mop downstairs', cat:'Floors' },
+  { id:'it-floor-doors', name:'Clean floor by front/back doors', cat:'Floors' },
+  { id:'it-fridge-surf', name:'Clean/wipe fridge surfaces', cat:'Kitchen' },
+  { id:'it-clean-fridge', name:'Clean out fridge', cat:'Kitchen' },
+  { id:'it-clean-pantry', name:'Clean out pantry', cat:'Kitchen' },
+  { id:'it-coffee-grinds', name:'Clean out coffee grinds', cat:'Kitchen' },
+  { id:'it-descale',    name:'Descale coffee machine', cat:'Kitchen' },
+  { id:'it-dw-cleaner', name:'Run dishwasher cleaner', cat:'Kitchen' },
+  { id:'it-shower',     name:'Clean shower tiling & base', cat:'Bathroom' },
+  { id:'it-tubs',       name:'Wipe inside tubs', cat:'Bathroom' },
+  { id:'it-sara-brushes', name:"Sara's makeup brushes", cat:'Bathroom' },
+  { id:'it-humidifier', name:"Clean Griffin's humidifier", cat:'Griffin' },
+  { id:'it-hum-filter', name:'Change humidifier filter', cat:'Griffin' },
+  { id:'it-furnace',    name:'Change furnace filter', cat:'Home' },
+  { id:'it-wash-machine', name:'Clean washing machine', cat:'Home' },
+  { id:'it-vac-bag',    name:'Check vacuum bag', cat:'Home' },
+  { id:'it-car-wash',   name:'Car wash', cat:'Errands' },
+  { id:'it-guest-office', name:'Convert guest room to office', cat:'Home' },
+  { id:'it-dusting',    name:'General dusting', cat:'General' },
+  { id:'it-wipe-table', name:'Wipe down dining room table', cat:'Kitchen' },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD LAUNDRY SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+const LAUNDRY_STATUSES = [
+  'Fold & put away',
+  'Move washer → dryer',
+  'Start new wash',
+  'Hang dry',
+  'Put away items on tub',
+];
+
+const LAUNDRY_OWNERS = ['', 'Griffin', 'Ours', 'Greg only', 'Sara only', 'Towels/linens', 'Guest room', 'Mixed'];
+
+// Statuses where hang dry is suppressed (show dash)
+function hangDryHidden(status, owner) {
+  if (['Fold & put away', 'Put away items on tub', 'Move washer → dryer'].includes(status)) return true;
+  if (owner === 'Towels/linens') return true;
+  return false;
+}
+
+let laundryRows = [];
+let laundryRowId = 0;
+
+// Quick-add items — each maps to a default row config
+const LAUNDRY_QUICK_ITEMS = [
+  { label: "Griffin's clothes",       status: 'Start new wash', owner: 'Griffin',       notesOnly: false },
+  { label: 'Our clothes',             status: 'Start new wash', owner: 'Ours',          notesOnly: false },
+  { label: 'Towels / linens',         status: 'Start new wash', owner: 'Towels/linens', notesOnly: false },
+  { label: "Greg's jeans",            notesOnly: true },
+  { label: 'Crib sheet / sleep sack', notesOnly: true },
+  { label: 'Guest room linens',       notesOnly: true },
+];
+
+// Track which quick-add items are currently in the rows
+function getQuickAddActiveLabels() {
+  const fromRows = new Set(laundryRows.filter(r => r.quickLabel).map(r => r.quickLabel));
+  const ta = document.getElementById('s-laundry-notes');
+  const notes = ta ? ta.value : '';
+  LAUNDRY_QUICK_ITEMS.filter(i => i.notesOnly).forEach(i => {
+    if (notes.includes(i.label)) fromRows.add(i.label);
+  });
+  return fromRows;
+}
+
+function addLaundryRow(status, owner, loads, hangDryItems, quickLabel) {
+  const id = ++laundryRowId;
+  laundryRows.push({
+    id,
+    status: status || 'Start new wash',
+    owner: owner || '',
+    loads: loads || 1,
+    hangDryItems: hangDryItems || '',
+    quickLabel: quickLabel || null,
+  });
+  renderLaundryRows();
+  renderQuickAdd();
+}
+
+function removeLaundryRow(id) {
+  laundryRows = laundryRows.filter(r => r.id !== id);
+  renderLaundryRows();
+  renderQuickAdd();
+  updateLaundryBadge();
+}
+
+function updateLaundryRow(id, field, value) {
+  const row = laundryRows.find(r => r.id === id);
+  if (!row) return;
+  row[field] = value;
+  if (field === 'status' || field === 'owner') renderLaundryRows();
+  updateLaundryBadge();
+}
+
+function stepLoads(id, delta) {
+  const row = laundryRows.find(r => r.id === id);
+  if (!row) return;
+  row.loads = Math.max(1, (row.loads || 1) + delta);
+  const el = document.getElementById('loads-val-' + id);
+  if (el) el.textContent = row.loads;
+  updateLaundryBadge();
+}
+
+function renderLaundryRows() {
+  const container = document.getElementById('laundry-rows');
+  if (!container) return;
+  container.innerHTML = '';
+
+  laundryRows.forEach(row => {
+    const hidden = hangDryHidden(row.status, row.owner);
+    const isCleanMachine = row.status === 'Clean washing machine';
+
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'padding:8px 0;border-bottom:1px solid var(--gray-100);';
+
+    // Main row: status | owner | stepper | remove
+    const mainRow = document.createElement('div');
+    mainRow.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto auto;gap:6px;align-items:center;';
+
+    // Status select
+    const statusSel = document.createElement('select');
+    statusSel.className = 'select-input';
+    statusSel.style.cssText = 'font-size:13px;padding:7px 28px 7px 10px;';
+    LAUNDRY_STATUSES.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      if (s === row.status) opt.selected = true;
+      statusSel.appendChild(opt);
+    });
+    statusSel.onchange = () => updateLaundryRow(row.id, 'status', statusSel.value);
+
+    // Owner select (hidden for clean washing machine)
+    const ownerSel = document.createElement('select');
+    ownerSel.className = 'select-input';
+    ownerSel.style.cssText = 'font-size:13px;padding:7px 28px 7px 10px;' + (isCleanMachine ? 'visibility:hidden;' : '');
+    LAUNDRY_OWNERS.forEach(o => {
+      const opt = document.createElement('option');
+      opt.value = o; opt.textContent = o || '—';
+      if (o === row.owner) opt.selected = true;
+      ownerSel.appendChild(opt);
+    });
+    ownerSel.onchange = () => updateLaundryRow(row.id, 'owner', ownerSel.value);
+
+    // Loads stepper (hidden for clean washing machine)
+    const stepper = document.createElement('div');
+    stepper.className = 'loads-stepper';
+    stepper.style.visibility = isCleanMachine ? 'hidden' : '';
+    stepper.innerHTML =
+      '<button class="loads-btn" onclick="stepLoads(' + row.id + ',-1)">−</button>' +
+      '<div class="loads-val" id="loads-val-' + row.id + '">' + (row.loads || 1) + '</div>' +
+      '<button class="loads-btn" onclick="stepLoads(' + row.id + ',1)">+</button>';
+
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'laundry-remove';
+    removeBtn.innerHTML = '×';
+    removeBtn.title = 'Remove';
+    removeBtn.onclick = () => removeLaundryRow(row.id);
+
+    mainRow.appendChild(statusSel);
+    mainRow.appendChild(ownerSel);
+    mainRow.appendChild(stepper);
+    mainRow.appendChild(removeBtn);
+    wrapper.appendChild(mainRow);
+
+    // Hang dry sub-field (only for non-machine rows)
+    if (!isCleanMachine) {
+      const hangRow = document.createElement('div');
+      hangRow.style.cssText = 'margin-top:5px;padding-left:2px;';
+      if (hidden) {
+        hangRow.innerHTML = '<span style="font-size:11px;color:var(--gray-400);">Hang dry — </span>';
+      } else {
+        const inp = document.createElement('input');
+        inp.className = 'input';
+        inp.style.cssText = 'font-size:13px;';
+        inp.placeholder = 'Items to hang dry + where they are (e.g. 2 light blue shirts — in washer; black bra — on counter)...';
+        inp.value = row.hangDryItems || '';
+        inp.addEventListener('input', (e) => updateLaundryRow(row.id, 'hangDryItems', e.target.value));
+        hangRow.appendChild(inp);
+      }
+      wrapper.appendChild(hangRow);
+    }
+
+    container.appendChild(wrapper);
+  });
+
+  updateLaundryBadge();
+}
+
+function renderQuickAdd() {
+  const container = document.getElementById('laundry-quickadd');
+  if (!container) return;
+  container.innerHTML = '';
+  const active = getQuickAddActiveLabels();
+
+  LAUNDRY_QUICK_ITEMS.forEach(item => {
+    const isActive = active.has(item.label);
+
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray-100);cursor:pointer;';
+    row.onclick = () => toggleQuickAdd(item);
+
+    const checkbox = document.createElement('div');
+    checkbox.className = 'task-checkbox' + (isActive ? ' checked' : '');
+    checkbox.style.cssText = 'flex-shrink:0;pointer-events:none;';
+
+    const label = document.createElement('div');
+    label.style.cssText = 'font-size:13px;font-weight:500;color:' + (isActive ? 'var(--green)' : 'var(--gray-800)') + ';';
+    label.textContent = item.label;
+
+    row.appendChild(checkbox);
+    row.appendChild(label);
+    container.appendChild(row);
+  });
+}
+
+function toggleQuickAdd(item) {
+  if (item.notesOnly) {
+    // Notes-only items: append/remove from laundry notes textarea
+    const ta = document.getElementById('s-laundry-notes');
+    if (!ta) return;
+    const cur = ta.value;
+    const marker = item.label;
+    if (cur.includes(marker)) {
+      // Remove it — strip the line
+      ta.value = cur.split('\n').filter(l => l.trim() !== marker).join('\n').trim();
+    } else {
+      ta.value = cur ? cur + '\n' + marker : marker;
+    }
+    renderQuickAdd();
+    return;
+  }
+
+  const active = getQuickAddActiveLabels();
+  if (active.has(item.label)) {
+    const row = laundryRows.find(r => r.quickLabel === item.label);
+    if (row) removeLaundryRow(row.id);
+  } else {
+    addLaundryRow(item.status, item.owner, 1, '', item.label);
+  }
+}
+
+function updateLaundryBadge() {
+  const count = laundryRows.length;
+  const badge = document.getElementById('badge-laundry');
+  const sub = document.getElementById('laundry-subtitle');
+  if (badge) { badge.textContent = count; badge.classList.toggle('visible', count > 0); }
+  if (sub) sub.textContent = count > 0 ? count + ' load' + (count !== 1 ? 's' : '') : 'Select items';
+}
+
+function buildLaundrySection() {
+  laundryRows = [];
+  laundryRowId = 0;
+
+  if (currentDay === 'Tuesday') {
+    addLaundryRow('Fold & put away',     'Griffin',  1, '');
+    addLaundryRow('Move washer → dryer', 'Ours', 1, '');
+    addLaundryRow('Start new wash',      'Ours',     1, '');
+    addLaundryRow('Put away items on tub', '',       1, '');
+  } else {
+    addLaundryRow('Start new wash', 'Towels/linens', 1, '');
+  }
+
+  renderQuickAdd();
+}
+
+function getLaundryPayload() {
+  return laundryRows.map(row => {
+    const loadsNote = row.loads > 1 ? ' (' + row.loads + ' loads)' : '';
+    return {
+      status: row.status + loadsNote,
+      owner: row.owner,
+      loads: row.loads,
+      hangDryItems: row.hangDryItems || '',
+    };
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD TASKS SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+const TASK_CAT_ORDER = ['Errands','Cooking','Home','Kitchen','Bathroom','Floors','Griffin','Trash','General'];
+
+const INLINE_NOTE_IDS = {
+  'dinner-prep':           { placeholder: 'Recipe, links, and prep steps for adults...' },
+  'griffin-food':          { placeholder: 'Recipe, links, and prep steps for Griffin...' },
+  'french-toast':          { placeholder: 'Any notes or variations...' },
+  'sweet-potato-pancakes': { placeholder: 'Any notes or variations...' },
+  'banana-oatmeal':        { placeholder: 'Any notes or variations...' },
+  'yogurt-pops':           { placeholder: 'Any notes or variations...' },
+};
+
+const SECTION_NOTE_CATS = new Set(['Kitchen', 'Bathroom', 'Floors', 'Griffin', 'Home', 'Cooking', 'General']);
+
+function buildTasksSection() {
+  const container = document.getElementById('tasks-content');
+  container.innerHTML = '';
+
+  // Build set of default task IDs for this day
+  const defaultIds = new Set([
+    ...EVERYDAY_TASKS.map(t => t.id),
+    ...(currentDay === 'Tuesday' ? TUESDAY_TASKS : THURSDAY_TASKS).map(t => t.id)
+  ]);
+
+  // Group all tasks by category
+  const catMap = {};
+  TASK_CAT_ORDER.forEach(c => { catMap[c] = []; });
+
+  // Add everyday tasks
+  EVERYDAY_TASKS.forEach(t => {
+    if (!catMap[t.cat]) catMap[t.cat] = [];
+    if (!catMap[t.cat].find(x => x.id === t.id)) catMap[t.cat].push({...t, isDefault: true, defType:'everyday'});
+  });
+
+  // Add day-specific defaults
+  const dayTasks = currentDay === 'Tuesday' ? TUESDAY_TASKS : THURSDAY_TASKS;
+  dayTasks.forEach(t => {
+    if (!catMap[t.cat]) catMap[t.cat] = [];
+    if (!catMap[t.cat].find(x => x.id === t.id)) {
+      catMap[t.cat].push({...t, isDefault: true, defType: currentDay === 'Tuesday' ? 'tuesday' : 'thursday'});
+    }
+  });
+
+  // Add extras that aren't already defaults
+  Object.entries(EXTRA_TASKS_BY_CAT).forEach(([cat, tasks]) => {
+    if (!catMap[cat]) catMap[cat] = [];
+    tasks.forEach(t => {
+      if (!catMap[cat].find(x => x.id === t.id)) {
+        catMap[cat].push({...t, cat, isDefault: false, defType: ''});
+      }
+    });
+  });
+
+  // Reset all task states — always re-derive from defaults when day changes
+  sessionTasks = {};
+  TASK_CAT_ORDER.forEach(cat => {
+    (catMap[cat] || []).forEach(t => {
+      sessionTasks[t.id+'_task'] = t.isDefault;
+    });
+  });
+
+  // Render by category — skip Errands/Laundry (handled separately)
+  const skipCats = new Set(['Errands','Laundry']);
+  TASK_CAT_ORDER.filter(c => !skipCats.has(c)).forEach(cat => {
+    const tasks = catMap[cat] || [];
+    if (tasks.length === 0) return;
+
+    const label = document.createElement('div');
+    label.className = 'subsection-label';
+    label.textContent = cat;
+    container.appendChild(label);
+
+    const list = document.createElement('div');
+    list.className = 'task-list';
+
+    tasks.forEach(t => {
+      const checked = !!sessionTasks[t.id+'_task'];
+      const badgeCls = t.defType === 'everyday' ? 'badge-everyday' : t.defType === 'tuesday' ? 'badge-tuesday' : t.defType === 'thursday' ? 'badge-thursday' : '';
+      const badgeTxt = t.defType === 'everyday' ? 'Every day' : t.defType === 'tuesday' ? 'Tue' : t.defType === 'thursday' ? 'Thu' : '';
+      const hasInlineNote = INLINE_NOTE_IDS.hasOwnProperty(t.id);
+
+      const wrapper = document.createElement('div');
+
+      const row = document.createElement('div');
+      row.className = 'task-row' + (checked ? ' checked' : '');
+      row.id = 'trow-'+t.id+'-'+cat;
+      row.innerHTML = `
+        <div class="task-checkbox ${checked?'checked':''}" id="tchk-${t.id}-${cat}" onclick="toggleTask('${t.id}','${cat}')"></div>
+        <div class="task-info">
+          <div class="task-name">${escHtml(t.name)}</div>
+          ${t.note ? `<div class="task-note">${escHtml(t.note)}</div>` : ''}
+        </div>
+        ${badgeCls ? `<span class="task-default-badge ${badgeCls}" style="font-size:9px;">${badgeTxt}</span>` : ''}
+      `;
+      wrapper.appendChild(row);
+
+      // Inline notes textarea for cooking tasks
+      if (hasInlineNote) {
+        const noteWrap = document.createElement('div');
+        noteWrap.id = 'inline-note-wrap-'+t.id;
+        noteWrap.style.cssText = 'padding:0 0 8px 30px;display:' + (checked ? '' : 'none') + ';';
+        const ta = document.createElement('textarea');
+        ta.className = 'textarea';
+        ta.id = 'inline-note-'+t.id;
+        ta.placeholder = INLINE_NOTE_IDS[t.id].placeholder;
+        ta.style.cssText = 'min-height:56px;font-size:13px;';
+        noteWrap.appendChild(ta);
+        wrapper.appendChild(noteWrap);
+      }
+
+      list.appendChild(wrapper);
+    });
+
+    // Section-level notes field
+    if (SECTION_NOTE_CATS.has(cat)) {
+      const noteDiv = document.createElement('div');
+      noteDiv.style.cssText = 'padding:8px 0 2px;border-top:1px dashed var(--gray-200);margin-top:4px;';
+      noteDiv.innerHTML = `<textarea class="textarea" id="section-note-${cat.toLowerCase()}" placeholder="${cat} notes..." style="min-height:44px;font-size:13px;"></textarea>`;
+      list.appendChild(noteDiv);
+    }
+
+    container.appendChild(list);
+  });
+
+  updateTasksBadge();
+}
+
+
+
+function toggleTask(id, cat) {
+  const key = id+'_task';
+  sessionTasks[key] = !sessionTasks[key];
+  const checked = sessionTasks[key];
+  document.getElementById('tchk-'+id+'-'+cat)?.classList.toggle('checked', checked);
+  document.getElementById('trow-'+id+'-'+cat)?.classList.toggle('checked', checked);
+  // Show/hide inline note if applicable
+  const noteWrap = document.getElementById('inline-note-wrap-'+id);
+  if (noteWrap) noteWrap.style.display = checked ? '' : 'none';
+  updateTasksBadge();
+}
+
+function updateTasksBadge() {
+  const count = Object.entries(sessionTasks).filter(([k,v]) => k.endsWith('_task') && v).length
+    + Object.entries(extraTasks).filter(([k,v]) => v).length;
+  const badge = document.getElementById('badge-tasks');
+  if (badge) { badge.textContent = count; badge.classList.toggle('visible', count > 0); }
+  const sub = document.getElementById('tasks-subtitle');
+  if (sub) sub.textContent = count > 0 ? count + ' task' + (count!==1?'s':'') + ' selected' : 'By category';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD IF TIME SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+function buildIfTimeSection() {
+  const container = document.getElementById('iftime-tasks');
+  container.innerHTML = '';
+
+  // Group by category
+  const cats = {};
+  IF_TIME_TASKS.forEach(t => {
+    if (!cats[t.cat]) cats[t.cat] = [];
+    cats[t.cat].push(t);
+  });
+
+  Object.entries(cats).forEach(([cat, tasks]) => {
+    const label = document.createElement('div');
+    label.className = 'subsection-label';
+    label.textContent = cat;
+    container.appendChild(label);
+
+    const list = document.createElement('div');
+    list.className = 'task-list';
+    tasks.forEach(t => {
+      if (!(t.id in sessionTasks)) sessionTasks[t.id] = false;
+      const checked = !!sessionTasks[t.id];
+      const row = document.createElement('div');
+      row.className = 'task-row' + (checked ? ' checked' : '');
+      row.id = 'itrow-'+t.id;
+      row.innerHTML = `
+        <div class="task-checkbox ${checked?'checked':''}" id="itch-${t.id}" onclick="toggleIfTime('${t.id}')"></div>
+        <div class="task-info"><div class="task-name">${escHtml(t.name)}</div></div>
+      `;
+      list.appendChild(row);
+    });
+    container.appendChild(list);
+  });
+}
+
+function toggleIfTime(id) {
+  sessionTasks[id] = !sessionTasks[id];
+  const checked = sessionTasks[id];
+  document.getElementById('itch-'+id)?.classList.toggle('checked', checked);
+  document.getElementById('itrow-'+id)?.classList.toggle('checked', checked);
+  const count = IF_TIME_TASKS.filter(t => sessionTasks[t.id]).length;
+  const badge = document.getElementById('badge-iftime');
+  if (badge) { badge.textContent = count; badge.classList.toggle('visible', count > 0); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GRIFFIN SECTION PREVIEW
+// ─────────────────────────────────────────────────────────────────────────────
+
+function updateGriffinPreview() {
+  const saraStatus  = document.getElementById('s-sara-status')?.value || '';
+  const gregStatus  = document.getElementById('s-greg-status')?.value || '';
+  const pickup      = pickupVal;
+  const pickupNotes = document.getElementById('s-pickup-notes')?.value?.trim() || '';
+  const bedtime     = bedtimeVal;
+  const extHours    = document.getElementById('s-ext-hours')?.value?.trim() || '';
+
+  // Sync hidden field for payload
+  const whoHomeEl = document.getElementById('s-who-home');
+  if (whoHomeEl) whoHomeEl.value = buildWhoHomeValue(saraStatus, gregStatus);
+
+  let sentence = '';
+
+  // ── Part 1: Who is home ──────────────────────────────────────────────────
+  if (saraStatus && gregStatus) {
+    if (saraStatus === gregStatus) {
+      if (saraStatus === 'WFH')         sentence = 'We are both working from home today';
+      else if (saraStatus === 'In office') sentence = 'We are both in the office today';
+      else if (saraStatus === 'Out of town') sentence = 'We are both out of town today';
+    } else {
+      // Mixed — "I'm" for Sara (email is from Sara's POV)
+      // Use "and" when one is WFH (not a contrast), "but" when both are away from home
+      const saraPhrase = saraStatus === 'WFH'         ? "I'm working from home" :
+                         saraStatus === 'In office'   ? "I'm in the office" :
+                                                        "I'm out of town";
+      const gregPhrase = gregStatus === 'WFH'         ? 'Greg is working from home' :
+                         gregStatus === 'In office'   ? 'Greg is in the office' :
+                                                        'Greg is out of town';
+      // Use "and" if either person is WFH (home presence, not a contrast)
+      // Use "but" if both are away (office/out of town — a contrast)
+      const connector = (saraStatus === 'WFH' || gregStatus === 'WFH') ? ', and ' : ', but ';
+      sentence = saraPhrase + connector + gregPhrase + ' today';
+    }
+  } else if (saraStatus) {
+    sentence = saraStatus === 'WFH'         ? "I'm working from home today" :
+               saraStatus === 'In office'   ? "I'm in the office today" :
+                                              "I'm out of town today";
+  } else if (gregStatus) {
+    sentence = gregStatus === 'WFH'         ? 'Greg is working from home today' :
+               gregStatus === 'In office'   ? 'Greg is in the office today' :
+                                              'Greg is out of town today';
+  }
+
+  // ── Part 2: "X will be available/home for bedtime" ───────────────────────
+  // Skip if full bedtime requested (Leah handles everything) or no bedtime
+  if (sentence && bedtime !== 'full' && bedtime !== '') {
+    const saraHome = saraStatus !== 'Out of town';
+    const gregHome = gregStatus !== 'Out of town';
+    const saraWFH  = saraStatus === 'WFH';
+    const gregWFH  = gregStatus === 'WFH';
+
+    // "available" if at least one person is WFH, "home" if both are in office / out
+    const word = (saraWFH || gregWFH) ? 'available' : 'home';
+
+    let person = '';
+    if (saraHome && gregHome)       person = 'one/both of us';
+    else if (saraHome)              person = 'I';
+    else if (gregHome)              person = 'Greg';
+
+    if (person) {
+      sentence += ', but ' + person + ' will be ' + word + ' for bedtime';
+    }
+    sentence += '.';
+  } else if (sentence) {
+    sentence += '.';
+  }
+
+  // ── Part 3: Griffin pickup + bathtime ────────────────────────────────────
+  if (pickup === 'No' && (bedtime === 'none' || bedtime === '')) {
+    // Both pickup and bedtime are No — no Griffin responsibilities
+    sentence += (sentence ? ' ' : '') + "There will be no Griffin responsibilities this evening — pickup or bathtime.";
+  } else if (pickup === 'Yes') {
+    const pickupPart = "We'll need your help picking up Griffin" +
+      (pickupNotes ? ' — ' + pickupNotes : '') + ' today';
+    if (bedtime === 'full') {
+      sentence += (sentence ? ' ' : '') + pickupPart + ' and taking him through bedtime.';
+    } else if (bedtime === 'bath') {
+      sentence += (sentence ? ' ' : '') + pickupPart + ' and taking him through bathtime.';
+    } else {
+      sentence += (sentence ? ' ' : '') + pickupPart + '.';
+    }
+  } else if (pickup === 'No') {
+    if (bedtime === 'full') {
+      sentence += (sentence ? ' ' : '') + "We'll need your help taking Griffin through bedtime.";
+    } else if (bedtime === 'bath') {
+      sentence += (sentence ? ' ' : '') + "We'll need your help taking Griffin through bathtime.";
+    }
+  }
+
+  // ── Part 4: Extended hours ───────────────────────────────────────────────
+  if (extHours) {
+    sentence += (sentence ? ' ' : '') + 'Note: ' + extHours + '.';
+  }
+
+  const preview = document.getElementById('griffin-preview');
+  const previewText = document.getElementById('griffin-preview-text');
+
+  if (sentence) {
+    previewText.textContent = sentence;
+    preview.style.display = '';
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function buildWhoHomeValue(sara, greg) {
+  if (!sara && !greg) return '';
+  if (sara === greg) {
+    if (sara === 'WFH') return 'Both WFH';
+    if (sara === 'In office') return 'Both in office';
+    if (sara === 'Out of town') return 'Both out of town';
+  }
+  if (sara === 'WFH' && greg === 'In office') return 'Sara WFH / Greg in office';
+  if (sara === 'In office' && greg === 'WFH') return 'Greg WFH / Sara in office';
+  return (sara || '') + ' / ' + (greg || '');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// OPENING CONTEXT QUICK PHRASES
+// ─────────────────────────────────────────────────────────────────────────────
+
+const CONTEXT_PHRASES = [
+  { group: 'Travel', items: [
+    'We are getting settled out in AZ.',
+    'We are out of town this week, returning [day]. Thank you for everything!',
+    'We are out of town — if everything is complete before [time], please feel free to head out.',
+    'We are back home!',
+  ]},
+  { group: 'Evening / hours', items: [
+    'We will be getting ready from [time] and plan to be gone by the time you get home with Griffin.',
+    'We are aiming to be home by [time].',
+    'If you wrap up before a half day (4 hours), please feel free to head out!',
+    'Please feel free to head home for a few hours this afternoon post-errands.',
+  ]},
+  { group: 'Acknowledgment', items: [
+    'Glad to know you are feeling a little better — we appreciate the help today!',
+    'We hope you are continuing to feel better.',
+    'Thank you for keeping us updated — glad you are able to have Nico back home!',
+    'Thanks for coming in today — we really appreciate it.',
+    'Thanks again for all the extra help!',
+    'Thanks again for hanging out with Griffin on Friday!',
+    'Thanks again for the help with the car on Tuesday!',
+  ]},
+  { group: 'Griffin', items: [
+    'We started potty training more deliberately this weekend — [details].',
+    'Just a reminder on [date] with Griffin — [time range details].',
+  ]},
+];
+
+let contextChipsVisible = false;
+
+function toggleContextChips() {
+  contextChipsVisible = !contextChipsVisible;
+  const container = document.getElementById('context-chips');
+  const btn = document.getElementById('context-chips-btn');
+  container.innerHTML = '';
+
+  if (!contextChipsVisible) {
+    btn.textContent = '＋ Show common phrases';
+    return;
+  }
+
+  btn.textContent = '− Hide phrases';
+
+  CONTEXT_PHRASES.forEach(group => {
+    const groupLabel = document.createElement('div');
+    groupLabel.style.cssText = 'width:100%;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin:4px 0 2px;';
+    groupLabel.textContent = group.group;
+    container.appendChild(groupLabel);
+
+    group.items.forEach(phrase => {
+      const chip = document.createElement('button');
+      chip.textContent = phrase.length > 55 ? phrase.slice(0, 52) + '...' : phrase;
+      chip.title = phrase;
+      chip.style.cssText = 'padding:5px 10px;border-radius:20px;border:1px solid var(--gray-200);background:white;font-family:sans-serif;font-size:11px;color:var(--gray-700);cursor:pointer;transition:all 0.12s;text-align:left;max-width:100%;';
+      chip.onmouseover = () => { chip.style.background = "var(--blue-light)"; chip.style.borderColor = "var(--blue)"; chip.style.color = "var(--blue)"; };
+      chip.onmouseout = () => { chip.style.background = "white"; chip.style.borderColor = "var(--gray-200)"; chip.style.color = "var(--gray-700)"; };
+      chip.onclick = () => {
+        const ta = document.getElementById('s-context');
+        const cur = ta.value.trim();
+        ta.value = cur ? cur + ' ' + phrase : phrase;
+        ta.focus();
+        // Place cursor at end
+        ta.selectionStart = ta.selectionEnd = ta.value.length;
+      };
+      container.appendChild(chip);
+    });
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GREETING SUGGESTION ENGINE
+// ─────────────────────────────────────────────────────────────────────────────
+
+// US Federal holidays (month is 0-indexed)
+const HOLIDAYS = [
+  { name: "New Year's Day",      month: 0,  day: 1  },
+  { name: "New Year's weekend",  month: 0,  day: 2  },
+  { name: 'Martin Luther King',   month: 0,  day: 20 }, // approx 3rd Monday
+  { name: 'Presidents Day',       month: 1,  day: 17 }, // approx 3rd Monday
+  { name: 'Memorial Day',         month: 4,  day: 26 }, // approx last Monday
+  { name: 'Independence Day',     month: 6,  day: 4  },
+  { name: 'Labor Day',            month: 8,  day: 1  }, // approx 1st Monday
+  { name: 'Thanksgiving',         month: 10, day: 27 }, // approx 4th Thursday
+  { name: 'Christmas',            month: 11, day: 25 },
+  { name: 'Christmas weekend',    month: 11, day: 26 },
+];
+
+// Spring Training window (mid-Feb through late March)
+function isSpringTraining(d) {
+  return (d.getMonth() === 1 && d.getDate() >= 15) ||
+         (d.getMonth() === 2);
+}
+
+// Check if recent date (within N days before session) had a holiday
+function recentHoliday(sessionDate, lookbackDays) {
+  const sessionMs = sessionDate.getTime();
+  for (const h of HOLIDAYS) {
+    const year = sessionDate.getFullYear();
+    const hDate = new Date(year, h.month, h.day);
+    const diff = (sessionMs - hDate.getTime()) / 86400000;
+    if (diff >= 0 && diff <= lookbackDays) return h.name;
+    // also check prior year for late December
+    const hDatePrev = new Date(year - 1, h.month, h.day);
+    const diffPrev = (sessionMs - hDatePrev.getTime()) / 86400000;
+    if (diffPrev >= 0 && diffPrev <= lookbackDays) return h.name;
+  }
+  return null;
+}
+
+function autoGreeting() {
+  const day = currentDay; // 'Tuesday' or 'Thursday'
+  const now = new Date();
+  const context = document.getElementById('s-context')?.value?.trim().toLowerCase() || '';
+  const overallNotes = document.getElementById('s-overall-notes')?.value?.trim().toLowerCase() || '';
+  const allContext = context + ' ' + overallNotes;
+
+  const suggestions = [];
+
+  // ── 1. Context-aware (highest priority) ──────────────────────────────────
+  
+  // Just got back from travel
+  if (/return|back home|got home|landed|arrived|settling|settled/.test(allContext)) {
+    if (/arizona|az|spring training/.test(allContext) || isSpringTraining(now)) {
+      suggestions.push('We are getting settled out in AZ! Happy ' + day + '!');
+      suggestions.push('We hope you had a good weekend - we are getting settled back home!');
+    } else {
+      suggestions.push('We are back home! Happy ' + day + '!');
+      suggestions.push('We hope you had a good weekend - we are home!!!');
+    }
+  }
+
+  // Currently out of town
+  if (/out of town|traveling|travel|away|vacation/.test(allContext)) {
+    suggestions.push('As a reminder, we are out of town this week. Thank you for everything!');
+    suggestions.push('We are out of town - thank you so much for your help today!');
+  }
+
+  // Leah was sick / feeling better
+  if (/feeling? better|hope you.{0,20}better|recover|sick|under the weather/.test(allContext)) {
+    suggestions.push('Glad to hear you are feeling better - we appreciate the help today!');
+    suggestions.push('We hope you are continuing to feel better!');
+  }
+
+  // Leah had a pet situation (Nico)
+  if (/nico|dog|pet|pup/.test(allContext)) {
+    suggestions.push('We hope you had a good weekend and that Nico is doing better!');
+    suggestions.push('Thank you for keeping us updated - glad things are improving!');
+  }
+
+  // Griffin had extra evening (extended hours last session)
+  if (/extra help|extended|went well|thanks for staying|last session/.test(allContext)) {
+    suggestions.push('Thanks for the extra help ' + (day === 'Tuesday' ? 'last Thursday' : 'on Tuesday') + '!');
+  }
+
+  // Guest room / visitors
+  if (/guest|parents|family|visitors|arriving|in town/.test(allContext)) {
+    suggestions.push('Happy ' + day + '! Thank you for helping us get ready for our guests!');
+  }
+
+  // ── 2. Holiday-aware ─────────────────────────────────────────────────────
+  const holiday = recentHoliday(now, day === 'Tuesday' ? 4 : 2);
+  if (holiday) {
+    if (/thanksgiving/i.test(holiday)) {
+      if (/home|back|return/.test(allContext)) {
+        suggestions.push('We hope you had a good Thanksgiving weekend - we are home!!!');
+      } else {
+        suggestions.push('We hope you had a great Thanksgiving!');
+        suggestions.push('Happy ' + day + '! We hope you had a good Thanksgiving!');
+      }
+    } else if (/christmas|new year/i.test(holiday)) {
+      if (/new year/i.test(holiday)) {
+        suggestions.push("We hope you had a good New Year's!!!");
+        suggestions.push('Happy ' + day + "! We hope you had a wonderful New Year's!");
+      } else {
+        suggestions.push("We hope you had a great Christmas and New Year's!!!");
+        suggestions.push('Happy ' + day + '! We hope you had a wonderful holiday season!');
+      }
+    } else if (/labor day|memorial day/i.test(holiday)) {
+      suggestions.push('We hope you had a good ' + holiday + ' weekend!!!');
+    } else {
+      suggestions.push('We hope you had a good holiday weekend!!!');
+    }
+  }
+
+  // ── 3. Weekend acknowledgment (Tuesday after a weekend) ──────────────────
+  if (day === 'Tuesday') {
+    const dow = now.getDay(); // 0=Sun ... 6=Sat
+    // If we're filling this out Mon (1) through Tue (2) — it's a post-weekend Tuesday
+    if (dow >= 0 && dow <= 2) {
+      if (suggestions.length === 0) {
+        suggestions.push('We hope you had a good weekend!!!');
+        suggestions.push('Happy Tuesday! We hope you had a great weekend!');
+      }
+    }
+  }
+
+  // ── 4. Season-aware extras ────────────────────────────────────────────────
+  const month = now.getMonth();
+  const isWinter = month === 11 || month === 0 || month === 1;
+  const isSummer = month >= 5 && month <= 7;
+  const isSpring = month >= 2 && month <= 4;
+  const isFall   = month >= 8 && month <= 10;
+
+  if (isSpringTraining(now) && suggestions.length < 3) {
+    suggestions.push('Happy ' + day + '! We are getting settled out in AZ.');
+  }
+
+  // ── 5. Simple defaults (always include as fallback options) ───────────────
+  suggestions.push('Happy ' + day + '!');
+  if (day === 'Tuesday') {
+    suggestions.push('Happy Tuesday! Hope you had a great weekend!');
+  } else {
+    suggestions.push('Happy Thursday! Almost the weekend!');
+  }
+
+  // ── 6. Render chips ───────────────────────────────────────────────────────
+  const container = document.getElementById('greeting-chips');
+  container.innerHTML = '';
+
+  // Deduplicate and limit to 5
+  const seen = new Set();
+  const unique = suggestions.filter(s => {
+    if (seen.has(s)) return false;
+    seen.add(s);
+    return true;
+  }).slice(0, 5);
+
+  unique.forEach(suggestion => {
+    const chip = document.createElement('button');
+    chip.textContent = suggestion;
+    chip.style.cssText = "padding:5px 10px;border-radius:20px;border:1px solid var(--gray-200);background:white;font-family:sans-serif;font-size:12px;color:var(--gray-700);cursor:pointer;transition:all 0.12s;text-align:left;";
+    chip.onmouseover = () => { chip.style.background = "var(--green-light)"; chip.style.borderColor = "var(--green)"; chip.style.color = "var(--green)"; };
+    chip.onmouseout = () => { chip.style.background = "white"; chip.style.borderColor = "var(--gray-200)"; chip.style.color = "var(--gray-700)"; };
+    chip.onclick = () => {
+      document.getElementById('s-greeting').value = suggestion;
+      container.innerHTML = '';
+    };
+    container.appendChild(chip);
+  });
+}
+
+function init() {
+  document.getElementById('header-date').textContent = today();
+  currentDay = detectDay();
+  document.getElementById('day-'+currentDay.toLowerCase()).classList.add('active');
+  buildGrocery();
+  buildLaundrySection();
+  buildTasksSection();
+  buildIfTimeSection();
+  updateGroceryTotals();
+  // Default Griffin pickup = Yes, bedtime = bath only
+  setPickup('Yes');
+  setBedtime('bath');
+  if (window.location.hash === '#session') switchTab('session');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FALLBACK GROCERY ITEMS
+// ─────────────────────────────────────────────────────────────────────────────
+const FALLBACK_ITEMS = [
+  { id:'32660659-6369-8132-9178-e1366322796d', name:'Bananas', section:'Fruits', frequency:'Every week', quantity:'2', qtyType:'count', clarifier:'', notes:'Mix of ripe and firm', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81d0-8350-edbeab362284', name:'Mixed melon', section:'Fruits', frequency:'Every week', quantity:'1', qtyType:'count', clarifier:'container', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8127-89d0-f0ad27cea87b', name:'Blueberries', section:'Fruits', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'container', notes:'Jumbo', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-814d-a5bb-db4f30fd7e8a', name:'Strawberries', section:'Fruits', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'container', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-816b-b40d-d405ac6950c4', name:'Granny Smith apples', section:'Fruits', frequency:'Occasional', quantity:'5', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8117-8acd-e28ad94c6ce8', name:'Grapes', section:'Fruits', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bag', notes:'Green', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8120-afde-c23ee66469f1', name:'Mango', section:'Fruits', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b4-9d01-c38df7d8ac27', name:'Limes', section:'Fruits', frequency:'Occasional', quantity:'4', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8199-8918-d200bf0f0964', name:'Lemons', section:'Fruits', frequency:'Occasional', quantity:'4', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81ea-b6aa-f9dc3dba476f', name:'Broccoli', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'head', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81a2-b969-f1efe763da59', name:'Purple cauliflower', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'head', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8165-923c-cc70d2554613', name:'English cucumber', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8198-a685-f44e04c29b00', name:'Carrots', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'bunch', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-811b-8893-f355a66203b8', name:'Baby yellow potatoes', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'small bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8115-a37a-cb1df84f4a8e', name:'Avocado', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'', notes:'Firm ok if not eating immediately', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81a4-ac87-de8082563250', name:'Red bell pepper', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81cc-ba44-d24b3ee88885', name:'Red onion', section:'Vegetables', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8152-9d2a-cdc46874d624', name:'Sweet onion', section:'Vegetables', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b7-b095-e781a4cbe023', name:'Iceberg lettuce', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'head', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81da-b07c-f69e7b66bc95', name:'Cherry tomatoes', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'pint', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81e8-8407-c11d52073067', name:'Tomatoes', section:'Vegetables', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'slicing', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-810d-b105-d1e3de71bf2f', name:'Mushrooms', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'container', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-814f-acbf-eae1894ab9a4', name:'Snap or snow peas', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'small bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b3-9dda-dd61e9f3e495', name:'Radishes', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bunch', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-812e-8b60-f6ce8c91ef08', name:'Scallions', section:'Vegetables', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bunch', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8128-b700-e0b256cb5b8a', name:'Fennel', section:'Vegetables', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'large bulb', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-814f-a2da-d660ac9c4550', name:'Jalapeño', section:'Vegetables', frequency:'Rare', quantity:'2', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8170-9888-d6e436183b95', name:'Corn', section:'Vegetables', frequency:'Rare', quantity:'4', qtyType:'count', clarifier:'ears', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81c2-ad07-e6b4f5232467', name:'Russet potatoes', section:'Vegetables', frequency:'Rare', quantity:'3', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81fa-b20d-f58e4665e6eb', name:'Sweet potato', section:'Vegetables', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'', notes:'The usual one for pancakes', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8184-bedf-c3d4f509014d', name:'Boneless skinless chicken thighs', section:'Protein', frequency:'Every week', quantity:'1', qtyType:'count', clarifier:'pack', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8127-a18c-e843579e3bb4', name:'Boneless skinless chicken breasts', section:'Protein', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'pack', notes:'Ideally 3 breasts', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8125-9836-f7385a2d80df', name:'Bacon', section:'Protein', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'pack', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b2-b9d7-d600dfe03a74', name:'Salmon filet', section:'Protein', frequency:'Occasional', quantity:'0.5', qtyType:'lb', clarifier:'', notes:'Ask to remove skin at fish counter', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81e4-9f34-db729b13dab4', name:'Scallops', section:'Protein', frequency:'Occasional', quantity:'0.5', qtyType:'lb', clarifier:'small', notes:'From fish counter', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8150-b93e-db816233d8e6', name:'Shrimp', section:'Protein', frequency:'Occasional', quantity:'0.5', qtyType:'lb', clarifier:'peeled, deveined', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8103-89cf-c69ca4ddc163', name:'Boneless pork loin chops', section:'Protein', frequency:'Occasional', quantity:'1', qtyType:'lb', clarifier:'', notes:'The skinnier kind if 2 options', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-810e-8738-f3defa91650f', name:'Skirt steak', section:'Protein', frequency:'Occasional', quantity:'1', qtyType:'lb', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81e9-9c93-d24f120ddfed', name:'Cod', section:'Protein', frequency:'Occasional', quantity:'1', qtyType:'lb', clarifier:'Atlantic', notes:'Not portioned — whole strip; sub halibut if unavailable', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8181-a089-e63fe3dfb381', name:'Beef kabob', section:'Protein', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81ce-8094-ccff47e3558e', name:'Chicken kabob', section:'Protein', frequency:'Rare', quantity:'2', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8187-8d58-df60d713a626', name:'Jalapeño chicken sausage', section:'Protein', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'package', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81ae-9bc2-cf8bf8d47abb', name:'Whole milk', section:'Dairy', frequency:'Every week', quantity:'1', qtyType:'count', clarifier:'half gallon', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8127-b135-fa9d2c72d9fd', name:'Eggs', section:'Dairy', frequency:'Every week', quantity:'1', qtyType:'count', clarifier:'dozen', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8141-9b96-d69fe9854583', name:'Butter', section:'Dairy', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'pack, unsalted', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b3-9d4e-f3d6ad562a0a', name:'Shredded mexican cheese', section:'Dairy', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81e6-88e8-e63f238a6b78', name:'Yellow american cheese', section:'Deli', frequency:'Most weeks', quantity:'0.25', qtyType:'lb', clarifier:'deli counter', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-816a-abbe-fb71f72732da', name:'Black Forest ham', section:'Deli', frequency:'Most weeks', quantity:'1', qtyType:'lb', clarifier:'sliced thin', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8150-bd04-eb8237a585aa', name:'Chicken salad', section:'Deli', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'medium container', notes:'Classic, from deli', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81bc-b20c-dd64528f77e6', name:'Oven roasted turkey', section:'Deli', frequency:'Occasional', quantity:'1', qtyType:'lb', clarifier:'', notes:'In-house WF; sub peppered roasted if unavailable', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-810f-81af-d0a594008da9', name:'Ice cream cookie sandwiches', section:'Frozen', frequency:'Every week', quantity:'1', qtyType:'count', clarifier:'box', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-815a-9f88-fdc377dfdf80', name:"Jeni's Salted Caramel ice cream", section:'Frozen', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'pint', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81dc-98f8-d9de14e4437c', name:"Jeni's Blackout Chocolate Cake ice cream", section:'Frozen', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'pint', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-817e-8886-fcbdfffbb366', name:'Frozen mixed berries', section:'Frozen', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81f6-9218-de9cea2b24df', name:'Sourdough bread', section:'Grains & Bread', frequency:'Every week', quantity:'1', qtyType:'bread', clarifier:'sliced, from bakery', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8122-aabd-f34a027a6cf4', name:'French bread', section:'Grains & Bread', frequency:'Most weeks', quantity:'1', qtyType:'bread', clarifier:'sliced', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-812e-b0eb-d28e3d92d10e', name:"Nature's Own Brioche buns", section:'Grains & Bread', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'package', notes:'Sub similar if unavailable — let us know', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-815b-affd-f600076c6699', name:'Rolled oats', section:'Grains & Bread', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8160-94af-d7eeffea0cb9', name:'De Cecco Cavatappi pasta', section:'Grains & Bread', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'box', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b1-9cb6-c98aac785799', name:'Spindrift Grapefruit', section:'Beverages', frequency:'Every week', quantity:'3', qtyType:'count', clarifier:'singles or 1 pack', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-817d-ad73-f98df952b6b0', name:'Spindrift Lemon', section:'Beverages', frequency:'Most weeks', quantity:'3', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8156-880d-c582e32be79c', name:'Spindrift Raspberry/Lime', section:'Beverages', frequency:'Most weeks', quantity:'3', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-818b-97e6-ef86563e3937', name:'Topo Chico Lime', section:'Beverages', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'12-pack', notes:'Sometimes out of stock', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81df-878f-c074cf8b380d', name:'Distilled water', section:'Beverages', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'gallons', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8134-829e-d77dd228c4b4', name:'Whole coffee beans', section:'Beverages', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bag', notes:'Light or medium roast', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81ed-8c50-e56868910807', name:'WF Peanut Butter', section:'Condiments & Pantry', frequency:'Most weeks', quantity:'2', qtyType:'count', clarifier:'jars', notes:'Green top, unsweetened unsalted', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81dd-8d7a-e62db830642f', name:'WF Almond Butter', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'jar', notes:'Green top, organic creamy unsalted', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-814e-9114-ff11cda777ae', name:"Rao's Alfredo sauce", section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'jar', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81cb-8a71-d56a8fdb1fcf', name:'Sesame & Ginger dressing', section:'Condiments & Pantry', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'bottles', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-816d-b26d-d007475a59d3', name:'Cholula hot sauce', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'bottle', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8128-884e-c7dbe3bf3669', name:'Tomato paste', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'tube', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81a4-b4c2-ed8877702bfe', name:'Diced green chiles', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'small jar', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-817a-b064-d79b578fdae4', name:'Enchilada sauce', section:'Condiments & Pantry', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'containers', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81c1-9341-cd7cc829775d', name:'Sour cream', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'small container', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8116-9b1c-c8ff25cc7ad2', name:'Crumbled feta', section:'Condiments & Pantry', frequency:'Occasional', quantity:'1', qtyType:'count', clarifier:'small container', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81d2-9d75-c4d12450db8b', name:'Avocado oil spray', section:'Condiments & Pantry', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8184-b4ca-cbceee967f5a', name:'Low sodium soy sauce', section:'Condiments & Pantry', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'bottle', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81a0-ab8e-d0a86bdd266e', name:'Grape oil', section:'Condiments & Pantry', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'bottle', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81c2-ac6f-e19492d0f7cb', name:'Maple syrup', section:'Condiments & Pantry', frequency:'Rare', quantity:'1', qtyType:'count', clarifier:'bottle', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-812b-9026-d205d37360c9', name:'WF Tortilla chips', section:'Snacks', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-8167-9308-d6aafda9db4f', name:'Wavy potato chips', section:'Snacks', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'bag', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81bd-b9f7-cd56752befb1', name:"Annie's mixed snack bags", section:'Snacks', frequency:'Most weeks', quantity:'1', qtyType:'count', clarifier:'package', notes:'Cheddar bunnies + graham crackers variety', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81a9-ae64-cd22c05b4e43', name:'Once Upon a Farm tractor wheel bars', section:'Snacks', frequency:'Occasional', quantity:'2', qtyType:'count', clarifier:'boxes', notes:'If on sale, grab 5; otherwise 2', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81e6-abb8-f5e0b2cd2da2', name:'Coterie diapers', section:'Household & Baby', frequency:'Most weeks', quantity:'2', qtyType:'count', clarifier:'packs, size 6', notes:'', store:'Whole Foods', lastPurchased:'' },
+  { id:'32660659-6369-81b0-bf7d-f5a5cba6744c', name:'Wipes', section:'Household & Baby', frequency:'Most weeks', quantity:'2', qtyType:'count', clarifier:'packs', notes:'', store:'Either', lastPurchased:'' },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PACKAGE ENTRIES
+// ─────────────────────────────────────────────────────────────────────────────
+
+let packageEntries = [];
+let packageEntryId = 0;
+
+function addPackageEntry(what, doWith) {
+  const id = ++packageEntryId;
+  packageEntries.push({ id, what: what||'', doWith: doWith||'' });
+  renderPackageEntries();
+}
+
+function removePackageEntry(id) {
+  packageEntries = packageEntries.filter(e => e.id !== id);
+  renderPackageEntries();
+}
+
+function renderPackageEntries() {
+  const container = document.getElementById('package-entries');
+  if (!container) return;
+  container.innerHTML = '';
+
+  packageEntries.forEach(entry => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:center;';
+
+    const whatInput = document.createElement('input');
+    whatInput.className = 'input';
+    whatInput.style.cssText = 'font-size:13px;';
+    whatInput.placeholder = 'What is it?';
+    whatInput.value = entry.what;
+    whatInput.addEventListener('input', e => { entry.what = e.target.value; });
+
+    const doWithInput = document.createElement('input');
+    doWithInput.className = 'input';
+    doWithInput.style.cssText = 'font-size:13px;';
+    doWithInput.placeholder = 'What to do with it?';
+    doWithInput.value = entry.doWith;
+    doWithInput.addEventListener('input', e => { entry.doWith = e.target.value; });
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'laundry-remove';
+    removeBtn.innerHTML = '×';
+    removeBtn.onclick = () => removePackageEntry(entry.id);
+
+    row.appendChild(whatInput);
+    row.appendChild(doWithInput);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
+  });
+
+  // Auto-add first entry if empty
+  if (packageEntries.length === 0) addPackageEntry();
+}
+
+function getPackagesPayload() {
+  return packageEntries
+    .filter(e => e.what.trim())
+    .map(e => ({ what: e.what.trim(), doWith: e.doWith.trim() }));
+}
+
+// ── Custom errand entries ────────────────────────────────────────────────────
+
+let errandEntries = [];
+let errandEntryId = 0;
+
+function addErrandEntry(text) {
+  const id = ++errandEntryId;
+  errandEntries.push({ id, text: text || '' });
+  renderErrandEntries();
+}
+
+function removeErrandEntry(id) {
+  errandEntries = errandEntries.filter(e => e.id !== id);
+  renderErrandEntries();
+}
+
+function renderErrandEntries() {
+  const container = document.getElementById('custom-errand-entries');
+  if (!container) return;
+  container.innerHTML = '';
+
+  errandEntries.forEach(entry => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:1fr auto;gap:6px;margin-bottom:6px;align-items:center;';
+
+    const inp = document.createElement('input');
+    inp.className = 'input';
+    inp.style.cssText = 'font-size:13px;';
+    inp.placeholder = 'Describe the errand...';
+    inp.value = entry.text;
+    inp.addEventListener('input', e => { entry.text = e.target.value; });
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'laundry-remove';
+    removeBtn.innerHTML = '×';
+    removeBtn.onclick = () => removeErrandEntry(entry.id);
+
+    row.appendChild(inp);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
+  });
+
+  if (errandEntries.length === 0) addErrandEntry();
+}
+
+function getErrandsPayload() {
+  return errandEntries.filter(e => e.text.trim()).map(e => e.text.trim());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GROCERY STORE LIST
+// ─────────────────────────────────────────────────────────────────────────────
+
+let groceryStores = [];
+let groceryStoreId = 0;
+
+const DEFAULT_STORES = [
+  { name: 'Whole Foods', placeholder: 'Pulled from grocery order — add any extras here...' },
+  { name: 'Jewel',       placeholder: 'One item per line...' },
+  { name: 'CVS',         placeholder: 'One item per line...' },
+];
+
+function addGroceryStore(name, items, placeholder) {
+  const id = ++groceryStoreId;
+  groceryStores.push({ id, name: name || '', items: items || '', placeholder: placeholder || 'One item per line...' });
+  renderGroceryStores();
+}
+
+function removeGroceryStore(id) {
+  groceryStores = groceryStores.filter(s => s.id !== id);
+  renderGroceryStores();
+  updateGroceryStoreBadge();
+}
+
+function updateGroceryStore(id, field, value) {
+  const store = groceryStores.find(s => s.id === id);
+  if (store) { store[field] = value; updateGroceryStoreBadge(); }
+}
+
+function renderGroceryStores() {
+  const container = document.getElementById('grocery-store-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  groceryStores.forEach(store => {
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'margin-bottom:14px;';
+
+    // Header row: store name input + remove button
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:6px;';
+
+    const nameInput = document.createElement('input');
+    nameInput.className = 'input';
+    nameInput.style.cssText = 'font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-500);padding:6px 10px;flex:1;';
+    nameInput.value = store.name;
+    nameInput.placeholder = 'Store name...';
+    nameInput.addEventListener('input', e => updateGroceryStore(store.id, 'name', e.target.value));
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'laundry-remove';
+    removeBtn.innerHTML = '×';
+    removeBtn.title = 'Remove store';
+    removeBtn.onclick = () => removeGroceryStore(store.id);
+
+    header.appendChild(nameInput);
+    header.appendChild(removeBtn);
+
+    // Items textarea
+    const ta = document.createElement('textarea');
+    ta.className = 'textarea';
+    ta.style.cssText = 'min-height:64px;font-size:13px;';
+    ta.placeholder = store.placeholder;
+    ta.value = store.items;
+    ta.addEventListener('input', e => { updateGroceryStore(store.id, 'items', e.target.value); updateGroceryStoreBadge(); });
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(ta);
+    container.appendChild(wrapper);
+  });
+
+  updateGroceryStoreBadge();
+}
+
+function updateGroceryStoreBadge() {
+  const filled = groceryStores.filter(s => s.items && s.items.trim()).length;
+  const badge = document.getElementById('badge-sgrocery');
+  const sub = document.getElementById('sgrocery-subtitle');
+  if (badge) { badge.textContent = filled; badge.classList.toggle('visible', filled > 0); }
+  if (sub) sub.textContent = filled > 0 ? filled + ' store' + (filled !== 1 ? 's' : '') + ' with items' : 'By store';
+}
+
+function buildGroceryStores() {
+  groceryStores = [];
+  groceryStoreId = 0;
+  DEFAULT_STORES.forEach(s => addGroceryStore(s.name, '', s.placeholder));
+}
+
+function getGroceryStoresPayload() {
+  return groceryStores
+    .filter(s => s.name && s.name.trim())
+    .map(s => ({ store: s.name.trim(), items: s.items.trim() }));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SESSION SUBMIT
+// ─────────────────────────────────────────────────────────────────────────────
+async function submitSession() {
+  const btn = document.getElementById('session-submit-btn');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  // Gather all task IDs checked
+  const checkedTasks = [];
+  Object.entries(sessionTasks).forEach(([k,v]) => { if (v) checkedTasks.push(k.replace(/_task$/,'').replace(/_laundry$/,'')); });
+  Object.entries(extraTasks).forEach(([k,v]) => { if (v) checkedTasks.push(k); });
+
+  // Gather laundry items
+  const laundryItems = LAUNDRY_TASKS.filter(t => sessionTasks[t.id+'_laundry']).map(t => t.name);
+
+  // Gather if-time
+  const ifTimeItems = IF_TIME_TASKS.filter(t => sessionTasks[t.id]).map(t => t.name);
+
+  // DC items
+  const dcItems = {};
+  Object.entries(dcCounts).forEach(([k,v]) => { if (v>0) dcItems[k]=v; });
+
+  const payload = {
+    submittedAt: new Date().toISOString(),
+    sessionDate: today(),
+    dayOfWeek: currentDay,
+    greeting: document.getElementById('s-greeting')?.value||'',
+    openingContext: document.getElementById('s-context')?.value||'',
+    whoIsHome: buildWhoHomeValue(document.getElementById('s-sara-status')?.value||'', document.getElementById('s-greg-status')?.value||''),
+    griffinPickup: pickupVal,
+    griffinPickupNotes: document.getElementById('s-pickup-notes')?.value||'',
+    bedtimeHelp: bedtimeVal,
+    extendedHours: document.getElementById('s-ext-hours')?.value||'',
+    specialNotes: document.getElementById('s-special-notes')?.value||'',
+    overallNotes: document.getElementById('s-overall-notes')?.value||'',
+    includeDeparture: departureChecked,
+    laundryItems,
+    laundryNotes: document.getElementById('s-laundry-notes')?.value||'',
+        laundryLoads: getLaundryPayload(),
+    groceryStores: getGroceryStoresPayload(),
+    dryCleaningAction: dcStatus,
+    dryCleaningItems: dcItems,
+    dcOther: document.getElementById('dc-other')?.value||'',
+    tasks: checkedTasks,
+    carWash: !!extraTasks['carwash'],
+    carWashLocation: document.getElementById('s-carwash-loc')?.value||'',
+    returnPackage: !!extraTasks['returnpkg'],
+    returnDetails: document.getElementById('s-return-details')?.value||'',
+    packagesExpected: getPackagesPayload(),
+    customErrands: extraTasks['custom-errand'] ? getErrandsPayload() : [],
+    inlineTaskNotes: Object.fromEntries(Object.keys(INLINE_NOTE_IDS).map(id => [id, document.getElementById('inline-note-'+id)?.value||''])),
+    sectionNotes: Object.fromEntries([...SECTION_NOTE_CATS].map(cat => [cat, document.getElementById('section-note-'+cat.toLowerCase())?.value||''])),
+    ifTimeTasks: ifTimeItems,
+    longTermProjects: document.getElementById('s-longterm')?.value||'',
+  };
+
+  try { await fetch(SESSION_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }); } catch(e){}
+  sessionSubmitted = true;
+  document.getElementById('dot-session').classList.add('visible');
+  document.getElementById('session-main').style.display = 'none';
+  document.getElementById('session-submit-btn').style.display = 'none';
+  document.getElementById('session-success').classList.add('visible');
+  checkBothSubmitted();
+}
+
+function checkBothSubmitted() {
+  if (grocerySubmitted && sessionSubmitted) {
+    document.getElementById('ready-banner').classList.add('visible');
+  }
+}
+
+function openGmail() {
+  window.open('https://mail.google.com/mail/u/0/#drafts', '_blank');
+}
+
+function updateTasksBadge() {
+  const count = Object.entries(sessionTasks).filter(([k,v]) => k.endsWith('_task') && v).length
+    + Object.entries(extraTasks).filter(([k,v]) => v).length;
+  const badge = document.getElementById('badge-tasks');
+  if (badge) { badge.textContent = count; badge.classList.toggle('visible', count > 0); }
+  const sub = document.getElementById('tasks-subtitle');
+  if (sub) sub.textContent = count > 0 ? count + ' task' + (count!==1?'s':'') + ' selected' : 'By category';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+function init() {
+  document.getElementById('header-date').textContent = today();
+  currentDay = detectDay();
+  document.getElementById('day-'+currentDay.toLowerCase()).classList.add('active');
+  buildGroceryStores();
+  buildLaundrySection();
+  buildTasksSection();
+  buildIfTimeSection();
+  setPickup('Yes');
+  setBedtime('bath');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
