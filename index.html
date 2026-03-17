@@ -802,7 +802,7 @@ body {
         </div>
         <div id="griffin-preview" style="display:none;margin-top:12px;padding:12px 14px;background:var(--gray-50);border-radius:var(--radius-sm);border:1px solid var(--gray-200);">
           <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:6px;">Email preview</div>
-          <div id="griffin-preview-text" style="font-size:13px;color:var(--gray-700);line-height:1.6;white-space:pre-wrap;"></div>
+          <textarea id="griffin-preview-text" class="textarea" style="font-size:13px;color:var(--gray-700);line-height:1.6;min-height:60px;margin-top:2px;resize:vertical;" spellcheck="true" oninput="this.dataset.userEdited='1';this.dataset.lastAuto=this.value;"></textarea>
         </div>
       </div>
     </div>
@@ -1840,8 +1840,7 @@ function updateGriffinPreview() {
     // Both pickup and bedtime are No — no Griffin responsibilities
     sentence += (sentence ? ' ' : '') + "There will be no Griffin responsibilities this evening — pickup or bathtime.";
   } else if (pickup === 'Yes') {
-    const pickupPart = "We'll need your help picking up Griffin" +
-      (pickupNotes ? ' — ' + pickupNotes : '') + ' today';
+    const pickupPart = "We'll need your help picking up Griffin today";
     if (bedtime === 'full') {
       sentence += (sentence ? ' ' : '') + pickupPart + ' and taking him through bedtime.';
     } else if (bedtime === 'bath') {
@@ -1857,16 +1856,25 @@ function updateGriffinPreview() {
     }
   }
 
-  // ── Part 4: Extended hours ───────────────────────────────────────────────
+  // ── Part 4: Pickup notes + extended hours (appended at end) ─────────────
+  if (pickupNotes) {
+    sentence += (sentence ? ' ' : '') + pickupNotes;
+    if (!sentence.trim().endsWith('.')) sentence += '.';
+  }
   if (extHours) {
-    sentence += (sentence ? ' ' : '') + 'Note: ' + extHours + '.';
+    sentence += (sentence ? ' ' : '') + extHours;
+    if (!sentence.trim().endsWith('.')) sentence += '.';
   }
 
   const preview = document.getElementById('griffin-preview');
   const previewText = document.getElementById('griffin-preview-text');
 
   if (sentence) {
-    previewText.textContent = sentence;
+    // Only auto-fill if user hasn't manually edited — check if blank or matches last auto value
+    if (!previewText.dataset.userEdited || previewText.dataset.lastAuto === previewText.value) {
+      previewText.value = sentence;
+      previewText.dataset.lastAuto = sentence;
+    }
     preview.style.display = '';
   } else {
     preview.style.display = 'none';
