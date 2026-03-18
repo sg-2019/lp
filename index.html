@@ -792,6 +792,15 @@ body {
             <button class="toggle-btn" id="bed-no" onclick="setBedtime('none')">No</button>
           </div>
         </div>
+        <div class="field" id="bedtime-who-field" style="display:none;">
+          <label class="label">Who will be home for bedtime</label>
+          <select class="select-input" id="s-bedtime-who" onchange="updateGriffinPreview()">
+            <option value="">Select...</option>
+            <option value="one/both of us">One/both of us</option>
+            <option value="Sara">Sara</option>
+            <option value="Greg">Greg</option>
+          </select>
+        </div>
         <div class="field" id="pickup-notes-field" style="display:none;">
           <label class="label">Pickup notes</label>
           <input class="input" id="s-pickup-notes" placeholder="Pickup time, car availability, any notes..." oninput="updateGriffinPreview()" />
@@ -1153,6 +1162,11 @@ function setBedtime(val) {
   document.getElementById('bed-full').className = 'toggle-btn' + (val==='full' ? ' active' : '');
   document.getElementById('bed-bath').className = 'toggle-btn' + (val==='bath' ? ' active-blue' : '');
   document.getElementById('bed-no').className = 'toggle-btn' + (val==='none' ? ' active-red' : '');
+  // Show "who will be home for bedtime" only when bath only is selected
+  // (for full bedtime Leah handles it; for none it's irrelevant)
+  const showWho = val === 'bath';
+  document.getElementById('bedtime-who-field').style.display = showWho ? '' : 'none';
+  if (!showWho) document.getElementById('s-bedtime-who').value = '';
   updateGriffinPreview();
 }
 function toggleDeparture() {
@@ -1293,13 +1307,13 @@ const IF_TIME_TASKS = [
   { id:'it-dw-cleaner', name:'Run dishwasher cleaner', cat:'Kitchen' },
   { id:'it-shower',     name:'Clean shower tiling & base', cat:'Bathroom' },
   { id:'it-tubs',       name:'Wipe inside tubs', cat:'Bathroom' },
-  { id:'it-sara-brushes', name:"Sara's makeup brushes", cat:'Bathroom' },
+
   { id:'it-humidifier', name:"Clean Griffin's humidifier", cat:'Griffin' },
   { id:'it-hum-filter', name:'Change humidifier filter', cat:'Griffin' },
   { id:'it-furnace',    name:'Change furnace filter', cat:'Home' },
   { id:'it-wash-machine', name:'Clean washing machine', cat:'Home' },
   { id:'it-vac-bag',    name:'Check vacuum bag', cat:'Home' },
-  { id:'it-car-wash',   name:'Car wash', cat:'Errands' },
+
   { id:'it-guest-office', name:'Convert guest room to office', cat:'Home' },
   { id:'it-dusting',    name:'General dusting', cat:'General' },
   { id:'it-wipe-table', name:'Wipe down dining room table', cat:'Kitchen' },
@@ -1812,24 +1826,15 @@ function updateGriffinPreview() {
   }
 
   // ── Part 2: "X will be available/home for bedtime" ───────────────────────
-  // Skip if full bedtime requested (Leah handles everything) or no bedtime
-  if (sentence && bedtime !== 'full' && bedtime !== '') {
-    const saraHome = saraStatus !== 'Out of town';
-    const gregHome = gregStatus !== 'Out of town';
-    const saraWFH  = saraStatus === 'WFH';
-    const gregWFH  = gregStatus === 'WFH';
-
-    // "available" if at least one person is WFH, "home" if both are in office / out
+  const bedtimeWho = document.getElementById('s-bedtime-who')?.value || '';
+  if (sentence && bedtime === 'bath' && bedtimeWho) {
+    const saraWFH = saraStatus === 'WFH';
+    const gregWFH = gregStatus === 'WFH';
     const word = (saraWFH || gregWFH) ? 'available' : 'home';
-
-    let person = '';
-    if (saraHome && gregHome)       person = 'one/both of us';
-    else if (saraHome)              person = 'I';
-    else if (gregHome)              person = 'Greg';
-
-    if (person) {
-      sentence += ', but ' + person + ' will be ' + word + ' for bedtime';
-    }
+    // Sara becomes "I" in email voice
+    const personStr = bedtimeWho === 'Sara' ? 'I' : bedtimeWho;
+    sentence += ', but ' + personStr + ' will be ' + word + ' for bedtime.';
+  } else if (sentence && bedtime !== 'full') {
     sentence += '.';
   } else if (sentence) {
     sentence += '.';
@@ -2482,6 +2487,7 @@ async function submitSession() {
     griffinPickup: pickupVal,
     griffinPickupNotes: document.getElementById('s-pickup-notes')?.value||'',
     bedtimeHelp: bedtimeVal,
+    bedtimeWho: document.getElementById('s-bedtime-who')?.value||'',
     extendedHours: document.getElementById('s-ext-hours')?.value||'',
     specialNotes: document.getElementById('s-special-notes')?.value||'',
     overallNotes: document.getElementById('s-overall-notes')?.value||'',
