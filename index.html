@@ -2512,7 +2512,10 @@ async function submitSession() {
     longTermProjects: document.getElementById('s-longterm')?.value||'',
   };
 
-  try { await fetch(SESSION_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }); } catch(e){}
+  // Fire-and-forget — don't await, Zapier response time is irrelevant
+  if (SESSION_WEBHOOK) {
+    fetch(SESSION_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }).catch(()=>{});
+  }
   sessionSubmitted = true;
   document.getElementById('dot-session').classList.add('visible');
   document.getElementById('session-main').style.display = 'none';
