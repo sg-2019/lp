@@ -2535,7 +2535,7 @@ async function submitSession() {
     inlineTaskNotes: Object.fromEntries(Object.keys(INLINE_NOTE_IDS).map(id => [id, document.getElementById('inline-note-'+id)?.value||''])),
     sectionNotes: Object.fromEntries([...SECTION_NOTE_CATS].map(cat => [cat, document.getElementById('section-note-'+cat.toLowerCase())?.value||''])),
     ifTimeTasks: ifTimeItems,
-    longTermProjects: document.getElementById('s-longterm')?.value||'',
+    longTermProjects: (document.getElementById('s-longterm')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean),
   };
 
   // Fire-and-forget — don't await, Zapier response time is irrelevant
