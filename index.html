@@ -1810,10 +1810,8 @@ function updateGriffinPreview() {
       const gregPhrase = gregStatus === 'WFH'         ? 'Greg is working from home' :
                          gregStatus === 'In office'   ? 'Greg is in the office' :
                                                         'Greg is out of town';
-      // Use "and" if either person is WFH (home presence, not a contrast)
-      // Use "but" if both are away (office/out of town — a contrast)
-      const connector = (saraStatus === 'WFH' || gregStatus === 'WFH') ? ', and ' : ', but ';
-      sentence = saraPhrase + connector + gregPhrase + ' today';
+      // Always use "and" — these are parallel facts, not a contrast
+      sentence = saraPhrase + ', and ' + gregPhrase + ' today';
     }
   } else if (saraStatus) {
     sentence = saraStatus === 'WFH'         ? "I'm working from home today" :
@@ -1833,7 +1831,7 @@ function updateGriffinPreview() {
     const word = (saraWFH || gregWFH) ? 'available' : 'home';
     // Sara becomes "I" in email voice
     const personStr = bedtimeWho === 'Sara' ? 'I' : bedtimeWho;
-    sentence += ', but ' + personStr + ' will be ' + word + ' for bedtime.';
+    sentence += ', and ' + personStr + ' will be ' + word + ' for bedtime.';
   } else if (sentence && bedtime !== 'full') {
     sentence += '.';
   } else if (sentence) {
@@ -2514,11 +2512,14 @@ async function submitSession() {
 
   // Fire-and-forget — don't await, Zapier response time is irrelevant
   if (SESSION_WEBHOOK) {
-    fetch(SESSION_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }).catch(()=>{});
+    fetch(SESSION_WEBHOOK, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }).catch(()=>{});
   }
-  document.getElementById('session-main').style.display = 'none';
-  document.getElementById('session-submit-btn').style.display = 'none';
-  document.getElementById('session-success').classList.add('visible');
+  const mainEl = document.getElementById('session-main');
+  const btnEl  = document.getElementById('session-submit-btn');
+  const succEl = document.getElementById('session-success');
+  if (mainEl) mainEl.style.display = 'none';
+  if (btnEl)  btnEl.style.display  = 'none';
+  if (succEl) succEl.classList.add('visible');
 }
 
 
