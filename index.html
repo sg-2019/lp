@@ -2467,8 +2467,8 @@ async function submitSession() {
   Object.entries(sessionTasks).forEach(([k,v]) => { if (v) checkedTasks.push(k.replace(/_task$/,'').replace(/_laundry$/,'')); });
   Object.entries(extraTasks).forEach(([k,v]) => { if (v) checkedTasks.push(k); });
 
-  // Gather laundry items
-  const laundryItems = LAUNDRY_TASKS.filter(t => sessionTasks[t.id+'_laundry']).map(t => t.name);
+  // Gather laundry rows from the dynamic row system
+  const laundryItems = laundryRows.map(r => r.status + (r.owner ? ' — ' + r.owner : '') + (r.loads > 1 ? ' (' + r.loads + ' loads)' : '') + (r.hangDryItems ? ' [hang dry: ' + r.hangDryItems + ']' : ''));
 
   // Gather if-time
   const ifTimeItems = IF_TIME_TASKS.filter(t => sessionTasks[t.id]).map(t => t.name);
