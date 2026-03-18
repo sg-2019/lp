@@ -2516,19 +2516,12 @@ async function submitSession() {
   if (SESSION_WEBHOOK) {
     fetch(SESSION_WEBHOOK, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(payload) }).catch(()=>{});
   }
-  sessionSubmitted = true;
-  document.getElementById('dot-session').classList.add('visible');
   document.getElementById('session-main').style.display = 'none';
   document.getElementById('session-submit-btn').style.display = 'none';
   document.getElementById('session-success').classList.add('visible');
-  checkBothSubmitted();
 }
 
-function checkBothSubmitted() {
-  if (grocerySubmitted && sessionSubmitted) {
-    document.getElementById('ready-banner').classList.add('visible');
-  }
-}
+
 
 function openGmail() {
   window.open('https://mail.google.com/mail/u/0/#drafts', '_blank');
