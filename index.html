@@ -922,29 +922,46 @@ body {
       <div class="card-divider"></div>
       <div class="card-body" id="body-dc">
         <div class="field">
-          <label class="label">Action</label>
+          <label class="label">Action <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--gray-400);">(select one or both)</span></label>
           <div class="toggle-group">
-            <button class="toggle-btn active" id="dc-none" onclick="setDC('none')">None</button>
             <button class="toggle-btn" id="dc-drop" onclick="setDC('drop')">Drop off</button>
             <button class="toggle-btn" id="dc-pick" onclick="setDC('pick')">Pick up</button>
           </div>
         </div>
-        <div id="dc-items-wrap" style="display:none;">
-          <div class="subsection-label">Items</div>
+        <div id="dc-drop-wrap" style="display:none;">
+          <div class="subsection-label">Drop off items</div>
           <div class="dc-grid">
-            <div class="dc-item"><div class="dc-item-label">Pants</div><div class="stepper"><button class="step-btn" onclick="stepDC('pants',-1)">−</button><div class="step-val" id="dcv-pants">0</div><button class="step-btn" onclick="stepDC('pants',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Dress shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('dressshirts',-1)">−</button><div class="step-val" id="dcv-dressshirts">0</div><button class="step-btn" onclick="stepDC('dressshirts',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('shirts',-1)">−</button><div class="step-val" id="dcv-shirts">0</div><button class="step-btn" onclick="stepDC('shirts',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Suit</div><div class="stepper"><button class="step-btn" onclick="stepDC('suit',-1)">−</button><div class="step-val" id="dcv-suit">0</div><button class="step-btn" onclick="stepDC('suit',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Sports coat</div><div class="stepper"><button class="step-btn" onclick="stepDC('sportscoat',-1)">−</button><div class="step-val" id="dcv-sportscoat">0</div><button class="step-btn" onclick="stepDC('sportscoat',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Sweater</div><div class="stepper"><button class="step-btn" onclick="stepDC('sweater',-1)">−</button><div class="step-val" id="dcv-sweater">0</div><button class="step-btn" onclick="stepDC('sweater',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('dress',-1)">−</button><div class="step-val" id="dcv-dress">0</div><button class="step-btn" onclick="stepDC('dress',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Sweater dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('sweaterdress',-1)">−</button><div class="step-val" id="dcv-sweaterdress">0</div><button class="step-btn" onclick="stepDC('sweaterdress',1)">+</button></div></div>
-            <div class="dc-item"><div class="dc-item-label">Jeans</div><div class="stepper"><button class="step-btn" onclick="stepDC('jeans',-1)">−</button><div class="step-val" id="dcv-jeans">0</div><button class="step-btn" onclick="stepDC('jeans',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Pants</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','pants',-1)">−</button><div class="step-val" id="dcv-drop-pants">0</div><button class="step-btn" onclick="stepDC('drop','pants',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','dressshirts',-1)">−</button><div class="step-val" id="dcv-drop-dressshirts">0</div><button class="step-btn" onclick="stepDC('drop','dressshirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','shirts',-1)">−</button><div class="step-val" id="dcv-drop-shirts">0</div><button class="step-btn" onclick="stepDC('drop','shirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Suit</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','suit',-1)">−</button><div class="step-val" id="dcv-drop-suit">0</div><button class="step-btn" onclick="stepDC('drop','suit',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sports coat</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','sportscoat',-1)">−</button><div class="step-val" id="dcv-drop-sportscoat">0</div><button class="step-btn" onclick="stepDC('drop','sportscoat',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','sweater',-1)">−</button><div class="step-val" id="dcv-drop-sweater">0</div><button class="step-btn" onclick="stepDC('drop','sweater',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','dress',-1)">−</button><div class="step-val" id="dcv-drop-dress">0</div><button class="step-btn" onclick="stepDC('drop','dress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','sweaterdress',-1)">−</button><div class="step-val" id="dcv-drop-sweaterdress">0</div><button class="step-btn" onclick="stepDC('drop','sweaterdress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Jeans</div><div class="stepper"><button class="step-btn" onclick="stepDC('drop','jeans',-1)">−</button><div class="step-val" id="dcv-drop-jeans">0</div><button class="step-btn" onclick="stepDC('drop','jeans',1)">+</button></div></div>
           </div>
           <div class="field" style="margin-top:12px;">
-            <label class="label">Other items</label>
-            <input class="input" id="dc-other" placeholder="Anything not listed above..." />
+            <label class="label">Other drop off items</label>
+            <input class="input" id="dc-drop-other" placeholder="Anything not listed above..." />
+          </div>
+        </div>
+        <div id="dc-pick-wrap" style="display:none;">
+          <div class="subsection-label">Pick up items</div>
+          <div class="dc-grid">
+            <div class="dc-item"><div class="dc-item-label">Pants</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','pants',-1)">−</button><div class="step-val" id="dcv-pick-pants">0</div><button class="step-btn" onclick="stepDC('pick','pants',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','dressshirts',-1)">−</button><div class="step-val" id="dcv-pick-dressshirts">0</div><button class="step-btn" onclick="stepDC('pick','dressshirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Shirts</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','shirts',-1)">−</button><div class="step-val" id="dcv-pick-shirts">0</div><button class="step-btn" onclick="stepDC('pick','shirts',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Suit</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','suit',-1)">−</button><div class="step-val" id="dcv-pick-suit">0</div><button class="step-btn" onclick="stepDC('pick','suit',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sports coat</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','sportscoat',-1)">−</button><div class="step-val" id="dcv-pick-sportscoat">0</div><button class="step-btn" onclick="stepDC('pick','sportscoat',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','sweater',-1)">−</button><div class="step-val" id="dcv-pick-sweater">0</div><button class="step-btn" onclick="stepDC('pick','sweater',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','dress',-1)">−</button><div class="step-val" id="dcv-pick-dress">0</div><button class="step-btn" onclick="stepDC('pick','dress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Sweater dress</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','sweaterdress',-1)">−</button><div class="step-val" id="dcv-pick-sweaterdress">0</div><button class="step-btn" onclick="stepDC('pick','sweaterdress',1)">+</button></div></div>
+            <div class="dc-item"><div class="dc-item-label">Jeans</div><div class="stepper"><button class="step-btn" onclick="stepDC('pick','jeans',-1)">−</button><div class="step-val" id="dcv-pick-jeans">0</div><button class="step-btn" onclick="stepDC('pick','jeans',1)">+</button></div></div>
+          </div>
+          <div class="field" style="margin-top:12px;">
+            <label class="label">Other pick up items</label>
+            <input class="input" id="dc-pick-other" placeholder="Anything not listed above..." />
           </div>
         </div>
       </div>
@@ -1089,8 +1106,10 @@ const SESSION_WEBHOOK = params.get('hook') || '';
 // ─────────────────────────────────────────────────────────────────────────────
 let currentDay = 'Tuesday';
 let sessionTasks = {};
-let dcStatus = 'none';
-let dcCounts = { pants:0, dressshirts:0, shirts:0, suit:0, sportscoat:0, sweater:0, dress:0, sweaterdress:0, jeans:0 };
+let dcDropOff = false;
+let dcPickUp  = false;
+let dcDropCounts = { pants:0, dressshirts:0, shirts:0, suit:0, sportscoat:0, sweater:0, dress:0, sweaterdress:0, jeans:0 };
+let dcPickCounts = { pants:0, dressshirts:0, shirts:0, suit:0, sportscoat:0, sweater:0, dress:0, sweaterdress:0, jeans:0 };
 let pickupVal = '';
 let bedtimeVal = '';
 let departureChecked = false;
@@ -1175,17 +1194,21 @@ function toggleDeparture() {
   el.classList.toggle('checked', departureChecked);
   el.closest('.task-row').classList.toggle('checked', departureChecked);
 }
-function setDC(val) {
-  dcStatus = val;
-  document.getElementById('dc-none').className = 'toggle-btn' + (val==='none' ? ' active' : '');
-  document.getElementById('dc-drop').className = 'toggle-btn' + (val==='drop' ? ' active' : '');
-  document.getElementById('dc-pick').className = 'toggle-btn' + (val==='pick' ? ' active' : '');
-  document.getElementById('dc-items-wrap').style.display = val==='none' ? 'none' : '';
-  document.getElementById('dc-subtitle').textContent = val==='none' ? 'None' : val==='drop' ? 'Drop off' : 'Pick up';
+function setDC(action) {
+  if (action === 'drop') dcDropOff = !dcDropOff;
+  if (action === 'pick') dcPickUp  = !dcPickUp;
+  document.getElementById('dc-drop').className = 'toggle-btn' + (dcDropOff ? ' active' : '');
+  document.getElementById('dc-pick').className = 'toggle-btn' + (dcPickUp  ? ' active' : '');
+  const anyActive = dcDropOff || dcPickUp;
+  document.getElementById('dc-drop-wrap').style.display = dcDropOff ? '' : 'none';
+  document.getElementById('dc-pick-wrap').style.display  = dcPickUp  ? '' : 'none';
+  const subtitle = !anyActive ? 'None' : [dcDropOff && 'Drop off', dcPickUp && 'Pick up'].filter(Boolean).join(' + ');
+  document.getElementById('dc-subtitle').textContent = subtitle;
 }
-function stepDC(key, delta) {
-  dcCounts[key] = Math.max(0, (dcCounts[key]||0) + delta);
-  document.getElementById('dcv-'+key).textContent = dcCounts[key];
+function stepDC(type, key, delta) {
+  const counts = type === 'drop' ? dcDropCounts : dcPickCounts;
+  counts[key] = Math.max(0, (counts[key]||0) + delta);
+  document.getElementById('dcv-'+type+'-'+key).textContent = counts[key];
 }
 function toggleExtra(key) {
   extraTasks[key] = !extraTasks[key];
@@ -2472,8 +2495,10 @@ async function submitSession() {
   const ifTimeItems = IF_TIME_TASKS.filter(t => sessionTasks[t.id]).map(t => t.name);
 
   // DC items
-  const dcItems = {};
-  Object.entries(dcCounts).forEach(([k,v]) => { if (v>0) dcItems[k]=v; });
+  const dcDropItems = {};
+  Object.entries(dcDropCounts).forEach(([k,v]) => { if (v>0) dcDropItems[k]=v; });
+  const dcPickItems = {};
+  Object.entries(dcPickCounts).forEach(([k,v]) => { if (v>0) dcPickItems[k]=v; });
 
   const payload = {
     submittedAt: new Date().toISOString(),
@@ -2494,9 +2519,12 @@ async function submitSession() {
     laundryNotes: document.getElementById('s-laundry-notes')?.value||'',
         laundryLoads: getLaundryPayload(),
     groceryStores: getGroceryStoresPayload(),
-    dryCleaningAction: dcStatus,
-    dryCleaningItems: dcItems,
-    dcOther: document.getElementById('dc-other')?.value||'',
+    dcDropOff: dcDropOff,
+    dcPickUp:  dcPickUp,
+    dcDropItems,
+    dcPickItems,
+    dcDropOther: document.getElementById('dc-drop-other')?.value||'',
+    dcPickOther: document.getElementById('dc-pick-other')?.value||'',
     tasks: checkedTasks,
     carWash: !!extraTasks['carwash'],
     carWashLocation: document.getElementById('s-carwash-loc')?.value||'',
